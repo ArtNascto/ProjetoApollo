@@ -1,0 +1,104 @@
+<section
+  class="min-vh-70 o-hidden d-flex flex-column justify-content-center"
+  style="margin-top: 15em !important;"
+  [@routerTransition]
+>
+  <div class="row justify-content-center text-center align-items-center">
+    <div
+      class="col-xl-8 col-lg-9 col-md-10 layer-3 aos-init aos-animate"
+      data-aos="fade-up"
+      data-aos-delay="500"
+    >
+      <form>
+        <div class="card">
+          <div class="card-body" *ngIf="institution">
+            <div class="container-fluid">
+              <div class="row">
+                <div class="col-lg-6">
+                  <div class="form-group row required">
+                    <label class="col-md col-form-label text-left" for="name">
+                      Nome
+                    </label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="name"
+                      name="name"
+                      required
+                      [(ngModel)]="institution.name"
+                    />
+                  </div>
+                  <div class="form-group row required">
+                    <label class="col-md col-form-label text-left" for="name">
+                      CNPJ
+                    </label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="name"
+                      name="name"
+                      required
+                      [(ngModel)]="institution.cnpj"
+                    />
+                  </div>
+                  <div class="form-group row required">
+                    <label class="col-md col-form-label text-left" for="name">
+                      E-mail responsável técnico
+                    </label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="name"
+                      name="name"
+                      required
+                      [(ngModel)]="institution.technicalContact.email"
+                    />
+                  </div>
+                  <div class="form-group row required">
+                    <label class="col-md col-form-label text-left" for="name">
+                      Telefone responsável técnico
+                    </label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="name"
+                      name="name"
+                      required
+                      [(ngModel)]="institution.technicalContact.contactNumber"
+                    />
+                  </div>
+                </div>
+                
+                <div class="col-lg-6" *ngIf="institution.addresses">
+                  <div class="form-group row required">
+                    <label class="col-md col-form-label text-left" for="name">
+                      CEP
+                    </label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="name"
+                      name="name"
+                      required
+                      [(ngModel)]="institution.addresses[0].cep"
+                      (focusout)="searchAddress()"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!--
+!cores 
+- azul :#89BEEF
+- branco:#FAF7F2
+- roxo:#BC93C5
+- azul escuro:#473374
+- bege:#C29B55
+-->
