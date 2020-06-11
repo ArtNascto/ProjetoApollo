@@ -2211,7 +2211,6 @@ export class InstitutionDto implements IInstitutionDto {
     cnpj: string | undefined;
     addresses: AddressDto[] | undefined;
     technicalContact: ContactDto;
-    bussinessContact: ContactDto;
     billingInfo: BillingDto;
 
     constructor(data?: IInstitutionDto) {
@@ -2233,7 +2232,6 @@ export class InstitutionDto implements IInstitutionDto {
                     this.addresses.push(AddressDto.fromJS(item));
             }
             this.technicalContact = _data["technicalContact"] ? ContactDto.fromJS(_data["technicalContact"]) : <any>undefined;
-            this.bussinessContact = _data["bussinessContact"] ? ContactDto.fromJS(_data["bussinessContact"]) : <any>undefined;
             this.billingInfo = _data["billingInfo"] ? BillingDto.fromJS(_data["billingInfo"]) : <any>undefined;
         }
     }
@@ -2255,7 +2253,6 @@ export class InstitutionDto implements IInstitutionDto {
                 data["addresses"].push(item.toJSON());
         }
         data["technicalContact"] = this.technicalContact ? this.technicalContact.toJSON() : <any>undefined;
-        data["bussinessContact"] = this.bussinessContact ? this.bussinessContact.toJSON() : <any>undefined;
         data["billingInfo"] = this.billingInfo ? this.billingInfo.toJSON() : <any>undefined;
         return data; 
     }
@@ -2273,7 +2270,6 @@ export interface IInstitutionDto {
     cnpj: string | undefined;
     addresses: AddressDto[] | undefined;
     technicalContact: ContactDto;
-    bussinessContact: ContactDto;
     billingInfo: BillingDto;
 }
 

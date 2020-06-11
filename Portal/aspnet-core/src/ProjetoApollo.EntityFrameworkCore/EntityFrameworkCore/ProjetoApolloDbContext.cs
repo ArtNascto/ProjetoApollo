@@ -1,29 +1,32 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Abp.Localization;
 using Abp.Zero.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
+using ProjetoApollo.Apollo.Core;
 using ProjetoApollo.Authorization.Roles;
 using ProjetoApollo.Authorization.Users;
 using ProjetoApollo.MultiTenancy;
-using Abp.Localization;
 
-namespace ProjetoApollo.EntityFrameworkCore
-{
-    public class ProjetoApolloDbContext : AbpZeroDbContext<Tenant, Role, User, ProjetoApolloDbContext>
-    {
+namespace ProjetoApollo.EntityFrameworkCore {
+    public class ProjetoApolloDbContext : AbpZeroDbContext<Tenant, Role, User, ProjetoApolloDbContext> {
         /* Define a DbSet for each entity of the application */
+        public DbSet<Institution> Institution { get; set; }
+        public DbSet<Address> Address { get; set; }
+        public DbSet<Contact> Contact { get; set; }
 
-        public ProjetoApolloDbContext(DbContextOptions<ProjetoApolloDbContext> options)
-            : base(options)
-        {
-        }
+        public DbSet<Billing> Billing { get; set; }
+        public ProjetoApolloDbContext (DbContextOptions<ProjetoApolloDbContext> options) : base (options) { }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            base.OnModelCreating(modelBuilder);
+        protected override void OnModelCreating (ModelBuilder modelBuilder) {
+            base.OnModelCreating (modelBuilder);
 
-            modelBuilder.HasDefaultSchema("Apollo");
-            modelBuilder.Entity<ApplicationLanguageText>()
-                .Property(p => p.Value)
-                .HasMaxLength(100); // any integer that is smaller than 10485760
+            // modelBuilder.Entity<Contact> (e => {
+            //     e.HasOne (r => r.Institution).WithOne (u => u.TechnicalContact);
+            // });
+
+            modelBuilder.HasDefaultSchema ("Apollo");
+            modelBuilder.Entity<ApplicationLanguageText> ()
+                .Property (p => p.Value)
+                .HasMaxLength (100); // any integer that is smaller than 10485760
         }
     }
 }

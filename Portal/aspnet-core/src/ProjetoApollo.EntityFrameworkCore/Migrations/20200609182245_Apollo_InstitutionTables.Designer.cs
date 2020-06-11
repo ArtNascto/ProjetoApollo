@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using ProjetoApollo.EntityFrameworkCore;
@@ -9,9 +10,10 @@ using ProjetoApollo.EntityFrameworkCore;
 namespace ProjetoApollo.Migrations
 {
     [DbContext(typeof(ProjetoApolloDbContext))]
-    partial class ProjetoApolloDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200609182245_Apollo_InstitutionTables")]
+    partial class Apollo_InstitutionTables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1310,7 +1312,7 @@ namespace ProjetoApollo.Migrations
                     b.ToTable("AbpWebhookSubscriptions");
                 });
 
-            modelBuilder.Entity("ProjetoApollo.Apollo.Core.Address", b =>
+            modelBuilder.Entity("ProjetoApollo.Apollo.Institution.Address", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -1348,7 +1350,7 @@ namespace ProjetoApollo.Migrations
                     b.ToTable("Address");
                 });
 
-            modelBuilder.Entity("ProjetoApollo.Apollo.Core.Billing", b =>
+            modelBuilder.Entity("ProjetoApollo.Apollo.Institution.Billing", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -1369,13 +1371,12 @@ namespace ProjetoApollo.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("InstitutionId")
-                        .IsUnique();
+                    b.HasIndex("InstitutionId");
 
                     b.ToTable("Billing","Apollo");
                 });
 
-            modelBuilder.Entity("ProjetoApollo.Apollo.Core.Contact", b =>
+            modelBuilder.Entity("ProjetoApollo.Apollo.Institution.Contact", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -1396,13 +1397,12 @@ namespace ProjetoApollo.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("InstitutionId")
-                        .IsUnique();
+                    b.HasIndex("InstitutionId");
 
                     b.ToTable("Contact","Apollo");
                 });
 
-            modelBuilder.Entity("ProjetoApollo.Apollo.Core.Institution", b =>
+            modelBuilder.Entity("ProjetoApollo.Apollo.Institution.Institution", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -1850,29 +1850,29 @@ namespace ProjetoApollo.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("ProjetoApollo.Apollo.Core.Address", b =>
+            modelBuilder.Entity("ProjetoApollo.Apollo.Institution.Address", b =>
                 {
-                    b.HasOne("ProjetoApollo.Apollo.Core.Institution", "Institution")
-                        .WithMany("Addresses")
+                    b.HasOne("ProjetoApollo.Apollo.Institution.Institution", "Institution")
+                        .WithMany()
                         .HasForeignKey("InstitutionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("ProjetoApollo.Apollo.Core.Billing", b =>
+            modelBuilder.Entity("ProjetoApollo.Apollo.Institution.Billing", b =>
                 {
-                    b.HasOne("ProjetoApollo.Apollo.Core.Institution", "Institution")
-                        .WithOne("BillingInfo")
-                        .HasForeignKey("ProjetoApollo.Apollo.Core.Billing", "InstitutionId")
+                    b.HasOne("ProjetoApollo.Apollo.Institution.Institution", "Institution")
+                        .WithMany()
+                        .HasForeignKey("InstitutionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("ProjetoApollo.Apollo.Core.Contact", b =>
+            modelBuilder.Entity("ProjetoApollo.Apollo.Institution.Contact", b =>
                 {
-                    b.HasOne("ProjetoApollo.Apollo.Core.Institution", "Institution")
-                        .WithOne("TechnicalContact")
-                        .HasForeignKey("ProjetoApollo.Apollo.Core.Contact", "InstitutionId")
+                    b.HasOne("ProjetoApollo.Apollo.Institution.Institution", "Institution")
+                        .WithMany()
+                        .HasForeignKey("InstitutionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

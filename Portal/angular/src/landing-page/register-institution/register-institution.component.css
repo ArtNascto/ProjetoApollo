@@ -1,0 +1,25 @@
+.col-lg-6{
+    padding-left: 3em !important;
+}
+.col-lg-3{
+  padding-left: 3em !important;
+}
+/* enable absolute positioning */
+.inner-addon { 
+    position: relative; 
+}
+
+/* style icon */
+.inner-addon .fab {
+  position: absolute;
+  padding: 10px;
+  pointer-events: none;
+}
+
+/* align icon */
+.left-addon .fab  { left:  0px;}
+.right-addon .fab { right: 0px;}
+
+/* add padding  */
+.left-addon input  { padding-left:  30px; }
+.right-addon input { padding-right: 30px; }

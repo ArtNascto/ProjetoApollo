@@ -186,6 +186,14 @@
   resolved "https://registry.yarnpkg.com/@angular/forms/-/forms-9.1.4.tgz#7cb75b5731bd6cbcf4a45b7b2cc68b3581de8cc1"
   integrity sha512-Njt+pMLfPBchL0/ayIjJqXL6ZfM4Ccvf7KO1wS1HMzh3QlmfNa0JSgc4pfrbRJAMN9g7V/FYLyKejs1bJZkenA==
 
+"@angular/google-maps@^9.2.4":
+  version "9.2.4"
+  resolved "https://registry.yarnpkg.com/@angular/google-maps/-/google-maps-9.2.4.tgz#4702d43797ce7a9edaf54a382550625e8b0bf5a8"
+  integrity sha512-Ld1qvuYQZVOepnntNkn5bNAUEKqEU2v/ujxxGob0q/0T7R7DsToVCL6FrySc8O5/kHPmaC4B7kIcVWOu/VU6sQ==
+  dependencies:
+    "@types/googlemaps" "^3.37.0"
+    tslib "^1.9.0"
+
 "@angular/platform-browser-dynamic@^9.1.4":
   version "9.1.4"
   resolved "https://registry.yarnpkg.com/@angular/platform-browser-dynamic/-/platform-browser-dynamic-9.1.4.tgz#bf1cde9156bd29eeeef932b683b0c993614f75d5"
@@ -1057,6 +1065,11 @@
     "@types/minimatch" "*"
     "@types/node" "*"
 
+"@types/googlemaps@^3.37.0":
+  version "3.39.6"
+  resolved "https://registry.yarnpkg.com/@types/googlemaps/-/googlemaps-3.39.6.tgz#ca76df823fb4a8bd78bf47bd215fc70417a9ae51"
+  integrity sha512-O2joRmShgUcGBSyjp0pYFIP0Kv3y6jl8UXokEkcTI4D8FinTYsSt8OaHGQ/tI7WUF2eZTXKVJg6jQuEQS4d30w==
+
 "@types/jasmine@^3.4.0":
   version "3.5.10"
   resolved "https://registry.yarnpkg.com/@types/jasmine/-/jasmine-3.5.10.tgz#a1a41012012b5da9d4b205ba9eba58f6cce2ab7b"
@@ -1414,6 +1427,11 @@ alphanum-sort@^1.0.0:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/alphanum-sort/-/alphanum-sort-1.0.2.tgz#97a1119649b211ad33691d9f9f486a8ec9fbe0a3"
   integrity sha1-l6ERlkmyEa0zaR2fn0hqjsn74KM=
+
+angular-cc-library@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/angular-cc-library/-/angular-cc-library-2.0.1.tgz#afae03a903af9aeaee42843dac9fea0133671d2a"
+  integrity sha512-tEG0iRE9lKmMV8qs66Oa5laPV7lFOrcO4nJB1raK5mgwBfjlwcghkejcl6I3hwCZTKP0aQuCwJxdFsTy0j9pvQ==
 
 ansi-colors@4.1.1:
   version "4.1.1"

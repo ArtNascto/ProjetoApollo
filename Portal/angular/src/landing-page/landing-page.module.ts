@@ -9,6 +9,7 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { InitialContentComponent } from "./initial-content/initial-content.component";
 import { LandingPageComponent } from "./landing-page.component";
 import { NgxPaginationModule } from "ngx-pagination";
+import { CreditCardDirectivesModule } from 'angular-cc-library';
 @NgModule({
   imports: [
     CommonModule,
@@ -20,6 +21,7 @@ import { NgxPaginationModule } from "ngx-pagination";
     LandingPageRoutingModule,
     ServiceProxyModule,
     NgxPaginationModule,
+    CreditCardDirectivesModule
   ],
   declarations: [
     RegisterInstitutionComponent,

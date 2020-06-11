@@ -1,8 +1,12 @@
 using System.Collections.Generic;
+using Abp.AutoMapper;
 using Newtonsoft.Json;
+using ProjetoApollo.Apollo.Core;
 
 namespace ProjetoApollo.Apollo.Dto
 {
+    [AutoMapTo(typeof(Institution))]
+    
     public class InstitutionDto
     {
         [JsonProperty("name")]
@@ -16,9 +20,6 @@ namespace ProjetoApollo.Apollo.Dto
 
         [JsonProperty("technicalContact")]
         public virtual ContactDto TechnicalContact { get; set; }
-
-        [JsonProperty("bussinessContact")]
-        public virtual ContactDto BussinessContact { get; set; }
 
         [JsonProperty("billingInfo")]
         public virtual BillingDto BillingInfo { get; set; }

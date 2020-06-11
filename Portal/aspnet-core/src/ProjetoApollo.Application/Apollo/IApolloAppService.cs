@@ -4,7 +4,7 @@ using ProjetoApollo.Apollo.Dto;
 using ProjetoApollo.Apollo.Dto.Input;
 using ProjetoApollo.Apollo.Dto.Output;
 
-namespace ProjetoApollo.Apollo
+namespace ProjetoApollo.Apollo.AppService
 {
     public interface IApolloAppService : IApplicationService
     {

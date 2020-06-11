@@ -1,7 +1,11 @@
+using Abp.AutoMapper;
 using Newtonsoft.Json;
+using ProjetoApollo.Apollo.Core;
 
 namespace ProjetoApollo.Apollo.Dto
 {
+    [AutoMapTo(typeof(Contact))]
+    
     public class ContactDto
     {
         [JsonProperty("name")]

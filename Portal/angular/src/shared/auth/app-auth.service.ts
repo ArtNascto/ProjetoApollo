@@ -99,7 +99,7 @@ export class AppAuthService {
             initialUrl = AppConsts.appBaseUrl;
         }
 
-        location.href = initialUrl;
+        location.href = '/app/home';
     }
 
     private clear(): void {

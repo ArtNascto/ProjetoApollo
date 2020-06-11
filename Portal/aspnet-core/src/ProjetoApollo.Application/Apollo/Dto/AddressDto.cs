@@ -1,7 +1,10 @@
+using Abp.AutoMapper;
 using Newtonsoft.Json;
+using ProjetoApollo.Apollo.Core;
 
 namespace ProjetoApollo.Apollo.Dto
 {
+    [AutoMapTo(typeof(Address))]
     public class AddressDto
     {
         [JsonProperty("cep")]
