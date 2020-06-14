@@ -11,6 +11,10 @@
     <RootNamespace>ProjetoApollo</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="Abp.MailKit" Version="5.6.0" />
+    <PackageReference Include="MailKit" Version="2.7.0" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\ProjetoApollo.Core\ProjetoApollo.Core.csproj" />
   </ItemGroup>
 </Project>

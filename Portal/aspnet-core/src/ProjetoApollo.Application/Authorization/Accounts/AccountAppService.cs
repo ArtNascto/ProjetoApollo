@@ -1,8 +1,8 @@
-using System.Threading.Tasks;
 using Abp.Configuration;
 using Abp.Zero.Configuration;
 using ProjetoApollo.Authorization.Accounts.Dto;
 using ProjetoApollo.Authorization.Users;
+using System.Threading.Tasks;
 
 namespace ProjetoApollo.Authorization.Accounts
 {

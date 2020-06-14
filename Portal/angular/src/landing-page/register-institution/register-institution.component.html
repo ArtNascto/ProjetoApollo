@@ -1,327 +1,341 @@
-<div class="section-initial-content ">
-<section
-  class="min-vh-70 o-hidden d-flex flex-column justify-content-center"
-  style="margin-top: 15em !important;"
-  [@routerTransition]
->
-  <div class="row justify-content-center text-center align-items-center">
-    <div
-      class="col-xl-8 col-lg-9 col-md-10 layer-3 aos-init aos-animate"
-      data-aos="fade-up"
-      data-aos-delay="500"
-      *ngIf="institution"
-    >
-      <form
-        [formGroup]="institutionInfoForm"
-        #institutionInfo="ngForm"
-        (ngSubmit)="NextStep(institutionInfo.form)"
+<div class="section-initial-content">
+  <section
+    class="min-vh-70 o-hidden d-flex flex-column justify-content-center"
+    style="margin-top: 15em !important;"
+    [@routerTransition]
+  >
+    <div class="row justify-content-center text-center align-items-center">
+      <div
+        class="col-xl-8 col-lg-9 col-md-10 layer-3 aos-init aos-animate"
+        data-aos="fade-up"
+        data-aos-delay="500"
+        *ngIf="institution"
       >
-        <div class="card" *ngIf="step.length === 0">
-          <div class="card-body">
-            <div class="container-fluid">
-              <div class="row">
-                <div class="col-lg-6">
-                  <div class="form-group row required">
-                    <label class="col-md col-form-label text-left" for="name">
-                      Nome da Instituição
-                    </label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="name"
-                      name="name"
-                      required
-                      formControlName="name"
-                    />
+        <form
+          [formGroup]="institutionInfoForm"
+          #institutionInfo="ngForm"
+          (ngSubmit)="NextStep(institutionInfo.form)"
+        >
+          <div class="card" *ngIf="step.length === 0">
+            <div class="card-body">
+              <div class="container-fluid">
+                <div class="row">
+                  <div class="col-lg-6">
+                    <div class="form-group row required">
+                      <label class="col-md col-form-label text-left" for="name">
+                        Nome da Instituição
+                      </label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="name"
+                        name="name"
+                        required
+                        formControlName="name"
+                      />
+                    </div>
+                    <div class="form-group row required">
+                      <label class="col-md col-form-label text-left" for="cnpj">
+                        CNPJ
+                      </label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="cnpj"
+                        name="cnpj"
+                        required
+                        formControlName="cnpj"
+                      />
+                    </div>
+                    <div class="form-group row required">
+                      <label
+                        class="col-md col-form-label text-left"
+                        for="technicalContactName"
+                      >
+                        Nome responsável técnico
+                      </label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="technicalContactName"
+                        name="technicalContactName"
+                        required
+                        formControlName="technicalContactName"
+                      />
+                    </div>
+                    <div class="form-group row required">
+                      <label
+                        class="col-md col-form-label text-left"
+                        for="technicalContactEmail"
+                      >
+                        E-mail responsável técnico
+                      </label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="technicalContactEmail"
+                        name="technicalContactEmail"
+                        required
+                        formControlName="technicalContactEmail"
+                      />
+                    </div>
+                    <div class="form-group row required">
+                      <label
+                        class="col-md col-form-label text-left"
+                        for="technicalcontactNumber"
+                      >
+                        Telefone responsável técnico
+                      </label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="technicalcontactNumber"
+                        name="technicalcontactNumber"
+                        required
+                        formControlName="technicalcontactNumber"
+                        placeholder="(00) (9)0000-0000"
+                      />
+                    </div>
                   </div>
-                  <div class="form-group row required">
-                    <label class="col-md col-form-label text-left" for="cnpj">
-                      CNPJ
-                    </label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="cnpj"
-                      name="cnpj"
-                      required
-                      formControlName="cnpj"
-                    />
-                  </div>
-                  <div class="form-group row required">
-                    <label
-                      class="col-md col-form-label text-left"
-                      for="technicalContactName"
-                    >
-                      Nome responsável técnico
-                    </label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="technicalContactName"
-                      name="technicalContactName"
-                      required
-                      formControlName="technicalContactName"
-                    />
-                  </div>
-                  <div class="form-group row required">
-                    <label
-                      class="col-md col-form-label text-left"
-                      for="technicalContactEmail"
-                    >
-                      E-mail responsável técnico
-                    </label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="technicalContactEmail"
-                      name="technicalContactEmail"
-                      required
-                      formControlName="technicalContactEmail"
-                    />
-                  </div>
-                  <div class="form-group row required">
-                    <label
-                      class="col-md col-form-label text-left"
-                      for="technicalcontactNumber"
-                    >
-                      Telefone responsável técnico
-                    </label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="technicalcontactNumber"
-                      name="technicalcontactNumber"
-                      required
-                      formControlName="technicalcontactNumber"
-                      placeholder="(00) (9)0000-0000"
-                    />
-                  </div>
-                </div>
-                <div class="col-lg-6" *ngIf="institution.addresses">
-                  <div class="form-group row required">
-                    <label class="col-md col-form-label text-left" for="cep">
-                      CEP
-                    </label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="cep"
-                      name="cep"
-                      required
-                      formControlName="addressCep"
-                      (focusout)="
-                        searchAddress(this.institutionInfoForm.value.addressCep)
-                      "
-                    />
-                  </div>
-                  <div class="form-group row required">
-                    <label
-                      class="col-md col-form-label text-left"
-                      for="addressLine"
-                    >
-                      Endereço
-                    </label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="addressLine"
-                      name="addressLine"
-                      required
-                      formControlName="addressAddressLine"
-                    />
-                  </div>
-                  <div class="form-group row required">
-                    <label class="col-md col-form-label text-left" for="number">
-                      Numero
-                    </label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="number"
-                      name="number"
-                      required
-                      formControlName="addressNumber"
-                    />
-                  </div>
-                  <div class="form-group row">
-                    <label
-                      class="col-md col-form-label text-left"
-                      for="complement"
-                    >
-                      Complemento
-                    </label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="complement"
-                      name="complement"
-                      formControlName="addressComplement"
-                    />
-                  </div>
-                  <div class="form-group row required">
-                    <label
-                      class="col-md col-form-label text-left"
-                      for="addressDistrict"
-                    >
-                      Bairro
-                    </label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="addressDistrict"
-                      name="addressDistrict"
-                      required
-                      formControlName="addressDistrict"
-                    />
-                  </div>
-                  <div class="form-group row required">
-                    <label
-                      class="col-md col-form-label text-left"
-                      for="addressCity"
-                    >
-                      Cidade
-                    </label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="addressCity"
-                      name="addressCity"
-                      required
-                      formControlName="addressCity"
-                    />
-                  </div>
-                  <div class="form-group row required">
-                    <label
-                      class="col-md col-form-label text-left"
-                      for="addressState"
-                    >
-                      Estado
-                    </label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="addressState"
-                      name="addressState"
-                      required
-                      formControlName="addressState"
-                    />
+                  <div class="col-lg-6" *ngIf="institution.addresses">
+                    <div class="form-group row required">
+                      <label class="col-md col-form-label text-left" for="cep">
+                        CEP
+                      </label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="cep"
+                        name="cep"
+                        required
+                        formControlName="addressCep"
+                        (focusout)="
+                          searchAddress(
+                            this.institutionInfoForm.value.addressCep
+                          )
+                        "
+                      />
+                    </div>
+                    <div class="form-group row required">
+                      <label
+                        class="col-md col-form-label text-left"
+                        for="addressLine"
+                      >
+                        Endereço
+                      </label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="addressLine"
+                        name="addressLine"
+                        required
+                        formControlName="addressAddressLine"
+                      />
+                    </div>
+                    <div class="form-group row required">
+                      <label
+                        class="col-md col-form-label text-left"
+                        for="number"
+                      >
+                        Numero
+                      </label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="number"
+                        name="number"
+                        required
+                        formControlName="addressNumber"
+                      />
+                    </div>
+                    <div class="form-group row">
+                      <label
+                        class="col-md col-form-label text-left"
+                        for="complement"
+                      >
+                        Complemento
+                      </label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="complement"
+                        name="complement"
+                        formControlName="addressComplement"
+                      />
+                    </div>
+                    <div class="form-group row required">
+                      <label
+                        class="col-md col-form-label text-left"
+                        for="addressDistrict"
+                      >
+                        Bairro
+                      </label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="addressDistrict"
+                        name="addressDistrict"
+                        required
+                        formControlName="addressDistrict"
+                      />
+                    </div>
+                    <div class="form-group row required">
+                      <label
+                        class="col-md col-form-label text-left"
+                        for="addressCity"
+                      >
+                        Cidade
+                      </label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="addressCity"
+                        name="addressCity"
+                        required
+                        formControlName="addressCity"
+                      />
+                    </div>
+                    <div class="form-group row required">
+                      <label
+                        class="col-md col-form-label text-left"
+                        for="addressState"
+                      >
+                        Estado
+                      </label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="addressState"
+                        name="addressState"
+                        required
+                        formControlName="addressState"
+                      />
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
+            <div class="card-footer bg-transparent border-dark">
+              <button type="submit" class="btn btn-outline-dark float-right">
+                <i class="las la-arrow-right"></i>
+              </button>
+            </div>
           </div>
-          <div class="card-footer bg-transparent border-dark">
-            <button type="submit" class="btn btn-outline-dark float-right">
-              <i class="las la-arrow-right"></i>
-            </button>
-          </div>
-        </div>
-      </form>
-      <form
-        [formGroup]="creditCardForm"
-        #cardForm="ngForm"
-        (ngSubmit)="validateCreditCard(cardForm.form)"
-      >
-        <div class="card" *ngIf="step.length > 0">
-          <div class="card-body">
-            <div class="container-fluid">
-              <div class="row">
-                <div class="col-lg-12">
-                  <div class="form-group row required">
-                    <label
-                      class="col-md col-form-label text-left"
-                      for="accountHolderName"
-                    >
-                      Nome do titular da conta
-                    </label>
-                    <input
-                      id="accountHolderName"
-                      class="form-control"
-                      formControlName="accountHolderName"
-                      type="text"
-                    />
+        </form>
+        <form
+          [formGroup]="creditCardForm"
+          #cardForm="ngForm"
+          (ngSubmit)="validateCreditCard(cardForm.form)"
+        >
+          <div class="card" *ngIf="step.length > 0">
+            <div class="card-body">
+              <div class="container-fluid">
+                <div class="row">
+                  <div class="col-lg-12">
+                    <div class="form-group row required">
+                      <label
+                        class="col-md col-form-label text-left"
+                        for="accountHolderName"
+                      >
+                        Nome do titular da conta
+                      </label>
+                      <input
+                        id="accountHolderName"
+                        class="form-control"
+                        formControlName="accountHolderName"
+                        type="text"
+                      />
+                    </div>
                   </div>
-                </div>
-                <div class="col-lg-6">
-                  <div class="form-group row required has-feedback">
-                    <label
-                      class="col-md col-form-label text-left"
-                      for="ccNumber"
-                    >
-                      Numero cartão de credito
-                    </label>
+                  <div class="col-lg-6">
+                    <div class="form-group row required has-feedback">
+                      <label
+                        class="col-md col-form-label text-left"
+                        for="ccNumber"
+                      >
+                        Numero cartão de credito
+                      </label>
 
-                    <input
-                      id="ccNumber"
-                      formControlName="creditCard"
-                      class="form-control"
-                      type="tel"
-                      autocomplete="cc-number"
-                      #ccNumber="ccNumber"
-                      ccNumber
-                      required
-                    />
-                    <i
-                      class="fab fa-cc-{{
-                        ccNumber.resolvedScheme$ | async
-                      }} form-control-feedback"
-                    ></i>
+                      <input
+                        id="ccNumber"
+                        formControlName="creditCard"
+                        class="form-control"
+                        type="tel"
+                        autocomplete="cc-number"
+                        #ccNumber="ccNumber"
+                        ccNumber
+                        required
+                      />
+                      <i
+                        class="fab fa-cc-{{
+                          ccNumber.resolvedScheme$ | async
+                        }} form-control-feedback"
+                      ></i>
+                    </div>
                   </div>
-                </div>
-                <div class="col-lg-3">
-                  <div class="form-group row required">
-                    <label
-                      class="col-md col-form-label text-left"
-                      for="expiresDate"
-                    >
-                      Data de Vencimento
-                    </label>
-                    <input
-                      id="expiresDate"
-                      class="form-control"
-                      formControlName="expirationDate"
-                      type="tel"
-                      placeholder="mm/yyyy"
-                      autocomplete="cc-exp"
-                      ccExp
-                    />
+                  <div class="col-lg-3">
+                    <div class="form-group row required">
+                      <label
+                        class="col-md col-form-label text-left"
+                        for="expiresDate"
+                      >
+                        Data de Vencimento
+                      </label>
+                      <input
+                        id="expiresDate"
+                        class="form-control"
+                        formControlName="expirationDate"
+                        type="tel"
+                        placeholder="mm/yyyy"
+                        autocomplete="cc-exp"
+                        ccExp
+                      />
+                    </div>
                   </div>
-                </div>
-                <div class="col-lg-3">
-                  <div class="form-group row required">
-                    <label
-                      class="col-md col-form-label text-left"
-                      for="securityCode"
-                    >
-                      Código de segurança
-                    </label>
-                    <input
-                      id="cc-cvc"
-                      class="form-control"
-                      formControlName="cvc"
-                      type="tel"
-                      autocomplete="off"
-                      maxlength="4"
-                      minlength="3"
-                      ccCvc
-                    />
+                  <div class="col-lg-3">
+                    <div class="form-group row required">
+                      <label
+                        class="col-md col-form-label text-left"
+                        for="securityCode"
+                      >
+                        Código de segurança
+                      </label>
+                      <input
+                        id="cc-cvc"
+                        class="form-control"
+                        formControlName="cvc"
+                        type="tel"
+                        autocomplete="off"
+                        maxlength="4"
+                        minlength="3"
+                        ccCvc
+                      />
+                    </div>
                   </div>
+                  <!-- <re-captcha
+                    (resolved)="resolved($event)"
+                    formControlName="recaptchaReactive"
+                    siteKey="{siteKey}"
+                  >
+                  </re-captcha> -->
                 </div>
               </div>
             </div>
+            <div class="card-footer bg-transparent border-dark">
+              <button
+                type="submit"
+                class="btn btn-outline-dark float-right"
+                [disabled]="!recaptchaValidated"
+              >
+                <i class="las la-arrow-right"></i>
+              </button>
+            </div>
           </div>
-          <div class="card-footer bg-transparent border-dark">
-            <button type="submit" class="btn btn-outline-dark float-right">
-              <i class="las la-arrow-right"></i>
-            </button>
-          </div>
-        </div>
-      </form>
+        </form>
+      </div>
     </div>
-  </div>
-</section>
+  </section>
 </div>
-
 
 <!--
 !cores 

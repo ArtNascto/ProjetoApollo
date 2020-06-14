@@ -28,6 +28,16 @@ namespace ProjetoApollo.EntityFrameworkCore.Seed.Host
 
         private void CreateHostRoleAndUsers()
         {
+            // Client role for host
+
+            var clientRoleForHost = _context.Roles.IgnoreQueryFilters().FirstOrDefault(r => r.TenantId == null && r.Name == StaticRoleNames.Host.Client);
+            if (clientRoleForHost == null)
+            {
+                clientRoleForHost = _context.Roles.Add(new Role(null, StaticRoleNames.Host.Client, StaticRoleNames.Host.Client) { IsStatic = true, IsDefault = false }).Entity;
+                _context.SaveChanges();
+            }
+
+
             // Admin role for host
 
             var adminRoleForHost = _context.Roles.IgnoreQueryFilters().FirstOrDefault(r => r.TenantId == null && r.Name == StaticRoleNames.Host.Admin);

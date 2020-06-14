@@ -1,22 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Abp.Authorization;
+﻿using Abp.Authorization;
 using Abp.Authorization.Users;
 using Abp.MultiTenancy;
 using Abp.Runtime.Security;
 using Abp.UI;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using ProjetoApollo.Authentication.External;
 using ProjetoApollo.Authentication.JwtBearer;
 using ProjetoApollo.Authorization;
 using ProjetoApollo.Authorization.Users;
 using ProjetoApollo.Models.TokenAuth;
 using ProjetoApollo.MultiTenancy;
+using System;
+using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
+using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace ProjetoApollo.Controllers
 {
@@ -188,8 +188,22 @@ namespace ProjetoApollo.Controllers
             {
                 case AbpLoginResultType.Success:
                     return loginResult;
+
                 default:
-                    throw _abpLoginResultTypeHelper.CreateExceptionForFailedLoginAttempt(loginResult.Result, usernameOrEmailAddress, tenancyName);
+                    {
+                        loginResult = await _logInManager.LoginAsync(usernameOrEmailAddress, password, "Default");
+
+                        switch (loginResult.Result)
+                        {
+                            case AbpLoginResultType.Success:
+                                return loginResult;
+
+                            default:
+                                {
+                                    throw _abpLoginResultTypeHelper.CreateExceptionForFailedLoginAttempt(loginResult.Result, usernameOrEmailAddress, tenancyName);
+                                }
+                        }
+                    }
             }
         }
 

@@ -29,24 +29,24 @@ namespace ProjetoApollo.Web.Host.Controllers
         /// </summary>
         /// <param name="message"></param>
         /// <returns></returns>
-        public async Task<ActionResult> TestNotification(string message = "")
-        {
-            if (message.IsNullOrEmpty())
-            {
-                message = "This is a test notification, created at " + Clock.Now;
-            }
+        //public async Task<ActionResult> TestNotification(string message = "")
+        //{
+        //    if (message.IsNullOrEmpty())
+        //    {
+        //        message = "This is a test notification, created at " + Clock.Now;
+        //    }
 
-            var defaultTenantAdmin = new UserIdentifier(1, 2);
-            var hostAdmin = new UserIdentifier(null, 1);
+        //    var defaultTenantAdmin = new UserIdentifier(1, 2);
+        //    var hostAdmin = new UserIdentifier(null, 1);
 
-            await _notificationPublisher.PublishAsync(
-                "App.SimpleMessage",
-                new MessageNotificationData(message),
-                severity: NotificationSeverity.Info,
-                userIds: new[] { defaultTenantAdmin, hostAdmin }
-            );
+        //    await _notificationPublisher.PublishAsync(
+        //        "App.SimpleMessage",
+        //        new MessageNotificationData(message),
+        //        severity: NotificationSeverity.Info,
+        //        userIds: new[] { defaultTenantAdmin, hostAdmin }
+        //    );
 
-            return Content("Sent notification: " + message);
-        }
+        //    return Content("Sent notification: " + message);
+        //}
     }
 }

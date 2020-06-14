@@ -8,12 +8,11 @@ import { AccountRoutingModule } from './account-routing.module';
 import { ServiceProxyModule } from '@shared/service-proxies/service-proxy.module';
 import { SharedModule } from '@shared/shared.module';
 import { AccountComponent } from './account.component';
-import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { AccountLanguagesComponent } from './layout/account-languages.component';
 import { AccountHeaderComponent } from './layout/account-header.component';
 import { AccountFooterComponent } from './layout/account-footer.component';
-
+import {LoginComponent} from './login/login.component';
 // tenants
 import { TenantChangeComponent } from './tenant/tenant-change.component';
 import { TenantChangeDialogComponent } from './tenant/tenant-change-dialog.component';

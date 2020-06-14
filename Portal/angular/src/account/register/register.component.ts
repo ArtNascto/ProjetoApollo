@@ -5,7 +5,8 @@ import { AppComponentBase } from '@shared/app-component-base';
 import {
   AccountServiceProxy,
   RegisterInput,
-  RegisterOutput
+  RegisterOutput,
+  ApolloServiceProxy
 } from '@shared/service-proxies/service-proxies';
 import { accountModuleAnimation } from '@shared/animations/routerTransition';
 import { AppAuthService } from '@shared/auth/app-auth.service';
@@ -22,15 +23,17 @@ export class RegisterComponent extends AppComponentBase {
     injector: Injector,
     private _accountService: AccountServiceProxy,
     private _router: Router,
-    private authService: AppAuthService
+    private authService: AppAuthService,
+    private _apolloServiceProxy: ApolloServiceProxy
+
   ) {
     super(injector);
   }
 
   save(): void {
     this.saving = true;
-    this._accountService
-      .register(this.model)
+    this._apolloServiceProxy
+      .registerClient(this.model)
       .pipe(
         finalize(() => {
           this.saving = false;

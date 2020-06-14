@@ -20,6 +20,8 @@ export class RegisterInstitutionComponent extends AppComponentBase
   institution: InstitutionDto;
   step: number[] = [];
   securityCode: any;
+  siteKey:string = "";  
+  recaptchaValidated:boolean = false;
   constructor(
     private router: Router,
     injector: Injector,
@@ -66,6 +68,13 @@ export class RegisterInstitutionComponent extends AppComponentBase
   goToLoginPage() {
     this.router.navigate(["app/home"]);
   }
+  resolved(captchaResponse: string, res) {
+    // this._apolloServiceProxy.validateRecaptcha(token:captchaResponse).subscribe((r) => {
+    //   if(r){
+    //     this.recaptchaValidated = true
+    //   }
+    // });
+  }
   goToRegisterPage() {}
   searchAddress(address: string) {
     console.log(address);
@@ -78,7 +87,7 @@ export class RegisterInstitutionComponent extends AppComponentBase
   validateCreditCard(form: FormGroup) {
     if (form.status !== "VALID") {
       abp.message.error(
-        "Ocorreu um erro ao validar o cartão de crédito",
+        "Falha ao validar o cartão de crédito",
         "ERRO"
       );
     } else {
@@ -86,11 +95,12 @@ export class RegisterInstitutionComponent extends AppComponentBase
         form.value.accountHolderName;
       this.institution.billingInfo.accountNumber = form.value.creditCard;
       this.institution.billingInfo.expiresDate = form.value.expirationDate;
-      console.log(this.institution)
       let input = new CreateInstitutionInput();
       input.institution = this.institution
       this._apolloServiceProxy.registerInstitution(input).subscribe(r=>{
          this.router.navigate(["app/home"]);
+      },err=>{
+        abp.message.error(err,"ERRO!");
       })
     }
   }
@@ -98,7 +108,7 @@ export class RegisterInstitutionComponent extends AppComponentBase
   NextStep(form: FormGroup) {
     if (form.status !== "VALID") {
       abp.message.error(
-        "Ocorreu um erro ao validar o cartão de crédito",
+        "Ainda existem campos vazios/invalidos",
         "ERRO"
       );
     } else {

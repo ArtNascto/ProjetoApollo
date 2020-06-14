@@ -1,18 +1,24 @@
 ﻿using Abp.AutoMapper;
+using Abp.MailKit;
 using Abp.Modules;
 using Abp.Reflection.Extensions;
 using ProjetoApollo.Authorization;
+using Abp.Configuration.Startup;
+using ProjetoApollo.Email;
+using Abp.Dependency;
 
 namespace ProjetoApollo
 {
     [DependsOn(
         typeof(ProjetoApolloCoreModule), 
-        typeof(AbpAutoMapperModule))]
+        typeof(AbpAutoMapperModule), typeof(AbpMailKitModule))]
     public class ProjetoApolloApplicationModule : AbpModule
     {
         public override void PreInitialize()
         {
             Configuration.Authorization.Providers.Add<ProjetoApolloAuthorizationProvider>();
+            Configuration.ReplaceService<IMailKitSmtpBuilder, SmtpBuilder>(DependencyLifeStyle.Transient);
+
         }
 
         public override void Initialize()

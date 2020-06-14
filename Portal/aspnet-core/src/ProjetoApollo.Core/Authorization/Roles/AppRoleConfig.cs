@@ -12,10 +12,16 @@ namespace ProjetoApollo.Authorization.Roles
             roleManagementConfig.StaticRoles.Add(
                 new StaticRoleDefinition(
                     StaticRoleNames.Host.Admin,
+                    MultiTenancySides.Host,
+                    true
+                )
+            );
+            roleManagementConfig.StaticRoles.Add(
+                new StaticRoleDefinition(
+                    StaticRoleNames.Host.Client,
                     MultiTenancySides.Host
                 )
             );
-
             // Static tenant roles
 
             roleManagementConfig.StaticRoles.Add(
@@ -24,6 +30,18 @@ namespace ProjetoApollo.Authorization.Roles
                     MultiTenancySides.Tenant
                 )
             );
+            roleManagementConfig.StaticRoles.Add(
+               new StaticRoleDefinition(
+                   StaticRoleNames.Tenants.Medic,
+                   MultiTenancySides.Tenant
+               )
+           );
+            roleManagementConfig.StaticRoles.Add(
+               new StaticRoleDefinition(
+                   StaticRoleNames.Tenants.Lobby,
+                   MultiTenancySides.Tenant
+               )
+           );
         }
     }
 }

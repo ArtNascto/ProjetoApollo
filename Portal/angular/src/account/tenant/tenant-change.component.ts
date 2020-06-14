@@ -2,6 +2,7 @@
 import { AppComponentBase } from '@shared/app-component-base';
 import { TenantChangeDialogComponent } from './tenant-change-dialog.component';
 import { BsModalService } from 'ngx-bootstrap/modal';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'tenant-change',
@@ -10,15 +11,18 @@ import { BsModalService } from 'ngx-bootstrap/modal';
 export class TenantChangeComponent extends AppComponentBase implements OnInit {
   tenancyName = '';
   name = '';
-
-  constructor(injector: Injector, private _modalService: BsModalService) {
+isUser:boolean= true;
+  constructor(injector: Injector, private _router: Router,private _modalService: BsModalService) {
     super(injector);
   }
 
   get isMultiTenancyEnabled(): boolean {
     return abp.multiTenancy.isEnabled;
   }
-
+  redirectToInstitution() {
+    this.isUser = false;
+    // this._router.navigate(["/account/loginInstitution"]);
+  }
   ngOnInit() {
     if (this.appSession.tenant) {
       this.tenancyName = this.appSession.tenant.tenancyName;
