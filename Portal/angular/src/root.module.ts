@@ -21,7 +21,6 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { CollapseModule } from 'ngx-bootstrap/collapse';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { HttpClientModule } from '@angular/common/http';
-import { GoogleMapsModule } from '@angular/google-maps'
 import * as _ from 'lodash';
 
 export function appInitializerFactory(injector: Injector,
@@ -103,7 +102,7 @@ export function getCurrentLanguage(): string {
         ServiceProxyModule,
         RootRoutingModule,
         HttpClientModule,
-        GoogleMapsModule
+        
     ],
     declarations: [
         RootComponent

@@ -20,7 +20,7 @@ export class RegisterInstitutionComponent extends AppComponentBase
   institution: InstitutionDto;
   step: number[] = [];
   securityCode: any;
-  siteKey:string = "";  
+  siteKey:string = "6LcrX6QZAAAAAGoDKxEomS4T6021nLYM0pnsrZL-";  
   recaptchaValidated:boolean = false;
   constructor(
     private router: Router,
@@ -69,6 +69,7 @@ export class RegisterInstitutionComponent extends AppComponentBase
     this.router.navigate(["app/home"]);
   }
   resolved(captchaResponse: string, res) {
+    console.log({captchaResponse})
     // this._apolloServiceProxy.validateRecaptcha(token:captchaResponse).subscribe((r) => {
     //   if(r){
     //     this.recaptchaValidated = true

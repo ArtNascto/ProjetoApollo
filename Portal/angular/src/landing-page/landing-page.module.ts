@@ -10,7 +10,7 @@ import { InitialContentComponent } from "./initial-content/initial-content.compo
 import { LandingPageComponent } from "./landing-page.component";
 import { NgxPaginationModule } from "ngx-pagination";
 import { CreditCardDirectivesModule } from 'angular-cc-library';
-import { RecaptchaModule, RecaptchaFormsModule } from 'ng-recaptcha';
+// import { RecaptchaModule, RecaptchaFormsModule } from 'ng-recaptcha';
 @NgModule({
   imports: [
     CommonModule,
@@ -23,8 +23,8 @@ import { RecaptchaModule, RecaptchaFormsModule } from 'ng-recaptcha';
     ServiceProxyModule,
     NgxPaginationModule,
     CreditCardDirectivesModule,
-    RecaptchaModule,
-    RecaptchaFormsModule,
+    // RecaptchaModule,
+    // RecaptchaFormsModule,
   ],
   declarations: [
     RegisterInstitutionComponent,
