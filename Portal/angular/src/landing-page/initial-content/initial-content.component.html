@@ -39,7 +39,17 @@
   <section>
     <div class="container" style="margin-top: 10em !important;">
       <div class="row aos-init aos-animate" data-aos="fade-up">
-        graficos com amostragem da pesquisa
+- graficos        <div class="chart-wrapper">
+          <canvas baseChart 
+              [datasets]="lineChartData" 
+              [labels]="lineChartLabels" 
+              [options]="lineChartOptions"
+              [colors]="lineChartColors" 
+              [legend]="lineChartLegend" 
+              [chartType]="lineChartType" 
+              [plugins]="lineChartPlugins">
+          </canvas>
+      </div>
       </div>
     </div>
   </section>
