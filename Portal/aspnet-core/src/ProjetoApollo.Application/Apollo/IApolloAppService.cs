@@ -12,5 +12,6 @@ namespace ProjetoApollo.Apollo.AppService
         Task<CreateInstitutionOutput> RegisterInstitution(CreateInstitutionInput input);
         InstitutionDto CreateInstitution ();
         Task<RegisterOutput> RegisterClient(RegisterInput input);
+        Task<QuestionaryDto> GetQuestionary();
     }
 }

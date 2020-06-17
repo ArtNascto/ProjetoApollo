@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using ProjetoApollo.EntityFrameworkCore;
@@ -9,9 +10,10 @@ using ProjetoApollo.EntityFrameworkCore;
 namespace ProjetoApollo.Migrations
 {
     [DbContext(typeof(ProjetoApolloDbContext))]
-    partial class ProjetoApolloDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200617223805_Refactor_Tables")]
+    partial class Refactor_Tables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1560,9 +1562,6 @@ namespace ProjetoApollo.Migrations
                         .HasColumnType("integer");
 
                     b.Property<string>("Priority")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Type")
                         .HasColumnType("text");
 
                     b.HasKey("Id");

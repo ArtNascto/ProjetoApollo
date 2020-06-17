@@ -1,14 +1,9 @@
-using Abp.Domain.Entities;
-using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Abp.Domain.Entities;
 
-namespace ProjetoApollo.Apollo.Core
-{
-    public class Address : Entity<long>
-    {
-        //[Key]
-        //[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        //public virtual long Id { get; set; }
+namespace ProjetoApollo.Apollo.Core {
+    [Table ("Address", Schema = "Apollo")]
+    public class Address : Entity<long> {
         public virtual string CEP { get; set; }
 
         public virtual string AddressLine { get; set; }
@@ -23,8 +18,9 @@ namespace ProjetoApollo.Apollo.Core
 
         public virtual string State { get; set; }
 
-        public virtual long InstitutionId { get; set; }
+        public virtual long? InstitutionId { get; set; }
         public virtual Institution Institution { get; set; }
-
+        public virtual long? ClientId { get; set; }
+        public virtual Client Client { get; set; }
     }
 }

@@ -40,7 +40,7 @@ import { SidebarUserPanelComponent } from './layout/sidebar-user-panel.component
 import { SidebarMenuComponent } from './layout/sidebar-menu.component';
 
 // Apollo
-
+import {QuestionnaireComponent} from './questionnaire/questionnaire.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -72,6 +72,7 @@ import { SidebarMenuComponent } from './layout/sidebar-menu.component';
     SidebarMenuComponent,
 
     // Projeto Apollo
+    QuestionnaireComponent,
   ],
   imports: [
     CommonModule,

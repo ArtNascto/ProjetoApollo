@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using ProjetoApollo.EntityFrameworkCore;
@@ -9,9 +10,10 @@ using ProjetoApollo.EntityFrameworkCore;
 namespace ProjetoApollo.Migrations
 {
     [DbContext(typeof(ProjetoApolloDbContext))]
-    partial class ProjetoApolloDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200615015808_Apollo_Add_Client_Tables")]
+    partial class Apollo_Add_Client_Tables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1543,7 +1545,7 @@ namespace ProjetoApollo.Migrations
                     b.ToTable("MedicalConsultation","Apollo");
                 });
 
-            modelBuilder.Entity("ProjetoApollo.Apollo.Core.Questionary", b =>
+            modelBuilder.Entity("ProjetoApollo.Apollo.Core.Questinary", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -1562,15 +1564,12 @@ namespace ProjetoApollo.Migrations
                     b.Property<string>("Priority")
                         .HasColumnType("text");
 
-                    b.Property<string>("Type")
-                        .HasColumnType("text");
-
                     b.HasKey("Id");
 
-                    b.ToTable("Questionary","Apollo");
+                    b.ToTable("Questinary","Apollo");
                 });
 
-            modelBuilder.Entity("ProjetoApollo.Apollo.Core.QuestionaryAnswers", b =>
+            modelBuilder.Entity("ProjetoApollo.Apollo.Core.QuestinaryAnswers", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -1583,19 +1582,19 @@ namespace ProjetoApollo.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<int>("QuestionId")
+                    b.Property<int?>("QuestinaryId")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("QuestionaryId")
+                    b.Property<int>("QuestionId")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
 
                     b.HasIndex("ClientId");
 
-                    b.HasIndex("QuestionaryId");
+                    b.HasIndex("QuestinaryId");
 
-                    b.ToTable("QuestionaryAnswers","Apollo");
+                    b.ToTable("QuestinaryAnswers","Apollo");
                 });
 
             modelBuilder.Entity("ProjetoApollo.Apollo.Core.Speciality", b =>
@@ -2117,15 +2116,15 @@ namespace ProjetoApollo.Migrations
                         .HasForeignKey("DoctorsId");
                 });
 
-            modelBuilder.Entity("ProjetoApollo.Apollo.Core.QuestionaryAnswers", b =>
+            modelBuilder.Entity("ProjetoApollo.Apollo.Core.QuestinaryAnswers", b =>
                 {
                     b.HasOne("ProjetoApollo.Apollo.Core.Client", "Client")
-                        .WithMany("QuestionaryAnswers")
+                        .WithMany()
                         .HasForeignKey("ClientId");
 
-                    b.HasOne("ProjetoApollo.Apollo.Core.Questionary", "Questionary")
+                    b.HasOne("ProjetoApollo.Apollo.Core.Questinary", "Questinary")
                         .WithMany()
-                        .HasForeignKey("QuestionaryId");
+                        .HasForeignKey("QuestinaryId");
                 });
 
             modelBuilder.Entity("ProjetoApollo.Apollo.Core.Speciality", b =>

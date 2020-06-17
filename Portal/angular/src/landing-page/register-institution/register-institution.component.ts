@@ -8,6 +8,10 @@ import {
 } from "@shared/service-proxies/service-proxies";
 import { FormGroup, Validators, FormBuilder } from "@angular/forms";
 import { CreditCardValidators } from "angular-cc-library";
+import { HereService } from "@shared/map/here-service";
+import { OpenStreetMapProvider } from 'leaflet-geosearch';
+
+import { environment } from "../../environments/environment";
 @Component({
   selector: "register",
   templateUrl: "./register-institution.component.html",
@@ -20,13 +24,15 @@ export class RegisterInstitutionComponent extends AppComponentBase
   institution: InstitutionDto;
   step: number[] = [];
   securityCode: any;
-  siteKey:string = "6LcrX6QZAAAAAGoDKxEomS4T6021nLYM0pnsrZL-";  
-  recaptchaValidated:boolean = false;
+  siteKey: string = "6LcrX6QZAAAAAGoDKxEomS4T6021nLYM0pnsrZL-";
+  recaptchaValidated: boolean = false;
+  provider:OpenStreetMapProvider;
   constructor(
     private router: Router,
     injector: Injector,
     private _fb: FormBuilder,
-    private _apolloServiceProxy: ApolloServiceProxy
+    private _apolloServiceProxy: ApolloServiceProxy,
+    private here: HereService
   ) {
     super(injector);
   }
@@ -69,7 +75,7 @@ export class RegisterInstitutionComponent extends AppComponentBase
     this.router.navigate(["app/home"]);
   }
   resolved(captchaResponse: string, res) {
-    console.log({captchaResponse})
+    console.log({ captchaResponse });
     // this._apolloServiceProxy.validateRecaptcha(token:captchaResponse).subscribe((r) => {
     //   if(r){
     //     this.recaptchaValidated = true
@@ -77,41 +83,39 @@ export class RegisterInstitutionComponent extends AppComponentBase
     // });
   }
   goToRegisterPage() {}
-  searchAddress(address: string) {
-    console.log(address);
-    //TODO: descomentar quando conta da google estiver OK
-    // var geocoder = new google.maps.Geocoder();
-    // geocoder.geocode({ address: address }, (r) => {
-    //   console.log(r);
-    // });
+ async searchAddress(address: string) {
+    // this.here.getAddress(address).then((r: any[]) => {
+    //   if (r && r.length > 0) {
+    //     r[0].Location.Address;
+    //   }
+    const provider = new OpenStreetMapProvider();
+    const results = await provider.search({ query: address });
+    console.log(results); 
   }
   validateCreditCard(form: FormGroup) {
     if (form.status !== "VALID") {
-      abp.message.error(
-        "Falha ao validar o cartão de crédito",
-        "ERRO"
-      );
+      abp.message.error("Falha ao validar o cartão de crédito", "ERRO");
     } else {
       this.institution.billingInfo.accountHolderName =
         form.value.accountHolderName;
       this.institution.billingInfo.accountNumber = form.value.creditCard;
       this.institution.billingInfo.expiresDate = form.value.expirationDate;
       let input = new CreateInstitutionInput();
-      input.institution = this.institution
-      this._apolloServiceProxy.registerInstitution(input).subscribe(r=>{
-         this.router.navigate(["app/home"]);
-      },err=>{
-        abp.message.error(err,"ERRO!");
-      })
+      input.institution = this.institution;
+      this._apolloServiceProxy.registerInstitution(input).subscribe(
+        (r) => {
+          this.router.navigate(["app/home"]);
+        },
+        (err) => {
+          abp.message.error(err, "ERRO!");
+        }
+      );
     }
   }
 
   NextStep(form: FormGroup) {
     if (form.status !== "VALID") {
-      abp.message.error(
-        "Ainda existem campos vazios/invalidos",
-        "ERRO"
-      );
+      abp.message.error("Ainda existem campos vazios/invalidos", "ERRO");
     } else {
       const value = form.value;
       this.institution.name = value.name;

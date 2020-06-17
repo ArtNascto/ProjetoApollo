@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { NgxPaginationModule } from 'ngx-pagination';
-
+import {HereService} from '@shared/map/here-service';
 import { AppSessionService } from './session/app-session.service';
 import { AppUrlService } from './nav/app-url.service';
 import { AppAuthService } from './auth/app-auth.service';
@@ -55,7 +55,8 @@ export class SharedModule {
                 AppUrlService,
                 AppAuthService,
                 AppRouteGuard,
-                LayoutStoreService
+                LayoutStoreService,
+                HereService
             ]
         };
     }

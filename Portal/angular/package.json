@@ -33,6 +33,8 @@
     "core-js": "^3.2.1",
     "famfamfam-flags": "^1.0.0",
     "jquery": "^3.4.1",
+    "leaflet": "^1.6.0",
+    "leaflet-geosearch": "^3.0.6",
     "line-awesome": "^1.3.0",
     "lodash": "^4.17.4",
     "moment": "^2.26.0",
