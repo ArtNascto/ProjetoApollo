@@ -6,6 +6,8 @@ using ProjetoApollo.Authorization;
 using Abp.Configuration.Startup;
 using ProjetoApollo.Email;
 using Abp.Dependency;
+using ProjetoApollo.Apollo.Core;
+using ProjetoApollo.Apollo.Dto;
 
 namespace ProjetoApollo
 {
@@ -30,7 +32,13 @@ namespace ProjetoApollo
             Configuration.Modules.AbpAutoMapper().Configurators.Add(
                 // Scan the assembly for classes which inherit from AutoMapper.Profile
                 cfg => cfg.AddMaps(thisAssembly)
+                
             );
+            Configuration.Modules.AbpAutoMapper().Configurators.Add(config =>
+        {
+            config.CreateMap<QuestionaryDto, Questionary>();
+            config.CreateMap<ClientDto, Client>();
+        });
         }
     }
 }

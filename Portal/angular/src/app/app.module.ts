@@ -41,6 +41,9 @@ import { SidebarMenuComponent } from './layout/sidebar-menu.component';
 
 // Apollo
 import {QuestionnaireComponent} from './questionnaire/questionnaire.component';
+import { InstitutionData } from './questionnaire/institution-data.component';
+import { NgSelectModule } from '@ng-select/ng-select';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -88,10 +91,10 @@ import {QuestionnaireComponent} from './questionnaire/questionnaire.component';
     ServiceProxyModule,
     SharedModule,
     NgxPaginationModule,
-
+    NgSelectModule
 
   ],
-  providers: [],
+  providers: [InstitutionData,],
   entryComponents: [
     // tenants
     CreateTenantDialogComponent,
@@ -105,4 +108,5 @@ import {QuestionnaireComponent} from './questionnaire/questionnaire.component';
     ResetPasswordDialogComponent,
   ],
 })
+
 export class AppModule {}

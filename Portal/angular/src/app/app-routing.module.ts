@@ -21,7 +21,7 @@ import { QuestionnaireComponent } from './questionnaire/questionnaire.component'
                     { path: 'users', component: UsersComponent, data: { permission: 'Pages.Users' }, canActivate: [AppRouteGuard] },
                     { path: 'roles', component: RolesComponent, data: { permission: 'Pages.Roles' }, canActivate: [AppRouteGuard] },
                     { path: 'tenants', component: TenantsComponent, data: { permission: 'Pages.Tenants' }, canActivate: [AppRouteGuard] },
-                    { path: 'questionnaire', component: QuestionnaireComponent, data: { permission: 'Apollo.Questionnaire' }, canActivate: [AppRouteGuard] },
+                    { path: 'questionnaire', component: QuestionnaireComponent, data: { }, canActivate: [AppRouteGuard] },
 
                     // { path: 'about', component: AboutComponent },
                     { path: 'update-password', component: ChangePasswordComponent }

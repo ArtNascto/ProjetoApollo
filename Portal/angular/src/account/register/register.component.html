@@ -122,6 +122,37 @@
         [controlEl]="passwordEl"
       ></abp-validation-summary>
     </div>
+    <div class="form-group">
+      <div class="custom-control custom-checkbox">
+        <input
+          type="checkbox"
+          class="custom-control-input"
+          id="hasMedicalInsurances"
+          name="hasMedicalInsurances"
+          [(ngModel)]="hasMedicalInsurances"
+        />
+        <label for="hasMedicalInsurances" class="custom-control-label">
+          Possui plano de saude?
+        </label>
+      </div>
+    </div>
+    <div class="form-group" *ngIf="hasMedicalInsurances">
+      <label class="col-form-label" for="medicalInsurance">
+        Selecione seu plano de saude
+      </label>
+
+      <select
+        #specialitySelect
+        name="medicalInsurance"
+        [(ngModel)]="model.medicalInsurance"
+        class="custom-select custom-select-lg mb-4 mt-1"
+      >
+        <option *ngFor="let medicalInsurance of medicalInsurances">{{
+          medicalInsurance
+        }}</option>
+      </select>
+    </div>
+
     <div class="row">
       <div class="col-8">
         <button

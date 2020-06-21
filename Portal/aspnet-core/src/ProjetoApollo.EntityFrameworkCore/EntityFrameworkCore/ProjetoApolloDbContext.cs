@@ -23,6 +23,8 @@ namespace ProjetoApollo.EntityFrameworkCore
         public DbSet<QuestionaryAnswers> QuestionaryAnswers { get; set; }
         public DbSet<MedicalConsultation> MedicalConsultation { get; set; }
 
+        public DbSet<MedicalInsurances> MedicalInsurances {get;set;}
+
         public ProjetoApolloDbContext(DbContextOptions<ProjetoApolloDbContext> options) : base(options)
         {
         }

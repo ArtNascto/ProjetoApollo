@@ -14,7 +14,7 @@ export class LandingPageComponent extends AppComponentBase implements OnInit {
 
   ngOnInit(): void {}
   goToLoginPage(): void {
-    this.router.navigate(["app/home"]);
+    this.router.navigate(["/app/home"]);
   }
   goToRegisterPage(): void {
     this.router.navigate(["account/register"]);

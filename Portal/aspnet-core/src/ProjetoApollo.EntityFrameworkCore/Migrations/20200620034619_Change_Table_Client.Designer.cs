@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using ProjetoApollo.EntityFrameworkCore;
@@ -9,9 +10,10 @@ using ProjetoApollo.EntityFrameworkCore;
 namespace ProjetoApollo.Migrations
 {
     [DbContext(typeof(ProjetoApolloDbContext))]
-    partial class ProjetoApolloDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200620034619_Change_Table_Client")]
+    partial class Change_Table_Client
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1545,21 +1547,6 @@ namespace ProjetoApollo.Migrations
                     b.HasIndex("DoctorsId");
 
                     b.ToTable("MedicalConsultation","Apollo");
-                });
-
-            modelBuilder.Entity("ProjetoApollo.Apollo.Core.MedicalInsurances", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
-
-                    b.Property<string>("Name")
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("MedicalInsurances","Apollo");
                 });
 
             modelBuilder.Entity("ProjetoApollo.Apollo.Core.Questionary", b =>

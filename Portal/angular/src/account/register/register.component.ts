@@ -1,35 +1,39 @@
-import { Component, Injector } from '@angular/core';
-import { Router } from '@angular/router';
-import { finalize } from 'rxjs/operators';
-import { AppComponentBase } from '@shared/app-component-base';
+import { Component, Injector, OnInit } from "@angular/core";
+import { Router } from "@angular/router";
+import { finalize } from "rxjs/operators";
+import { AppComponentBase } from "@shared/app-component-base";
 import {
   AccountServiceProxy,
   RegisterInput,
   RegisterOutput,
-  ApolloServiceProxy
-} from '@shared/service-proxies/service-proxies';
-import { accountModuleAnimation } from '@shared/animations/routerTransition';
-import { AppAuthService } from '@shared/auth/app-auth.service';
+  ApolloServiceProxy,
+} from "@shared/service-proxies/service-proxies";
+import { accountModuleAnimation } from "@shared/animations/routerTransition";
+import { AppAuthService } from "@shared/auth/app-auth.service";
 
 @Component({
-  templateUrl: './register.component.html',
-  animations: [accountModuleAnimation()]
+  templateUrl: "./register.component.html",
+  animations: [accountModuleAnimation()],
 })
-export class RegisterComponent extends AppComponentBase {
+export class RegisterComponent extends AppComponentBase implements OnInit {
   model: RegisterInput = new RegisterInput();
   saving = false;
-
+  hasMedicalInsurances:boolean = false;
+  medicalInsurances: string[] = [];
   constructor(
     injector: Injector,
     private _accountService: AccountServiceProxy,
     private _router: Router,
     private authService: AppAuthService,
     private _apolloServiceProxy: ApolloServiceProxy
-
   ) {
     super(injector);
   }
-
+  ngOnInit() {
+    this._apolloServiceProxy.getMedicalInsurances().subscribe((resp) => {
+      this.medicalInsurances = resp;
+    });
+  }
   save(): void {
     this.saving = true;
     this._apolloServiceProxy
@@ -41,8 +45,8 @@ export class RegisterComponent extends AppComponentBase {
       )
       .subscribe((result: RegisterOutput) => {
         if (!result.canLogin) {
-          this.notify.success(this.l('SuccessfullyRegistered'));
-          this._router.navigate(['/login']);
+          this.notify.success(this.l("SuccessfullyRegistered"));
+          this._router.navigate(["/login"]);
           return;
         }
 

@@ -37,7 +37,7 @@ export class InitialContentComponent extends AppComponentBase
   lineChartType = "line";
   ngOnInit() {}
   goToLoginPage() {
-    this.router.navigate(["app/home"]);
+    this.router.navigate(["/app/home"]);
   }
   goToRegisterPage() {}
   searchInstitution() {}

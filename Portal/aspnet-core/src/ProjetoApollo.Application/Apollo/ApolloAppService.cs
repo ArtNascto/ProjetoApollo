@@ -1,12 +1,17 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Abp.AutoMapper;
 using Abp.Configuration;
 using Abp.Domain.Repositories;
 using Abp.Domain.Uow;
 using Abp.MultiTenancy;
-using Abp.Net.Mail;
 using Abp.ObjectMapping;
+using Abp.Runtime.Session;
 using Abp.UI;
 using MailKit.Net.Smtp;
+using Microsoft.EntityFrameworkCore;
 using MimeKit;
 using ProjetoApollo.Apollo.Core;
 using ProjetoApollo.Apollo.Dto;
@@ -19,19 +24,15 @@ using ProjetoApollo.Configuration;
 using ProjetoApollo.Editions;
 using ProjetoApollo.MultiTenancy;
 using ProjetoApollo.MultiTenancy.Dto;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace ProjetoApollo.Apollo.AppService
-{
-    public class ApolloAppService : IApolloAppService
-    {
+namespace ProjetoApollo.Apollo.AppService {
+    public class ApolloAppService : IApolloAppService {
         private readonly SettingManager _settingManager;
         private readonly IRepository<Institution, long> _institutionRepository;
         private readonly IRepository<Questionary, int> _questionaryRepository;
         private readonly IRepository<Tenant, int> _tenantRepository;
+        private readonly IRepository<MedicalInsurances, long> _medicalInsurancesRepository;
+        private readonly IRepository<Client, long> _clientRepository;
+
         private readonly IObjectMapper _objectMapper;
         private readonly TenantManager _tenantManager;
         private readonly EditionManager _editionManager;
@@ -40,8 +41,8 @@ namespace ProjetoApollo.Apollo.AppService
         private readonly IAbpZeroDbMigrator _abpZeroDbMigrator;
         private readonly IUnitOfWorkManager _unitOfWorkManager;
         private readonly UserRegistrationManager _userRegistrationManager;
-
-        public ApolloAppService(
+        private readonly IAbpSession _abpSession;
+        public ApolloAppService (
             IRepository<Institution, long> institutionRepository,
             IObjectMapper objectMapper,
             IRepository<Tenant, int> tenantRepository,
@@ -53,8 +54,10 @@ namespace ProjetoApollo.Apollo.AppService
             IAbpZeroDbMigrator abpZeroDbMigrator,
             UserRegistrationManager userRegistrationManager,
             SettingManager settingManager,
-            IRepository<Questionary, int> questionaryRepository)
-        {
+            IRepository<Questionary, int> questionaryRepository,
+            IRepository<MedicalInsurances, long> medicalInsurancesRepository,
+            IRepository<Client, long> clientRepository,
+            IAbpSession abpSession) {
             _institutionRepository = institutionRepository;
             _objectMapper = objectMapper;
             _tenantManager = tenantManager;
@@ -67,25 +70,33 @@ namespace ProjetoApollo.Apollo.AppService
             _userRegistrationManager = userRegistrationManager;
             _settingManager = settingManager;
             _questionaryRepository = questionaryRepository;
+            _medicalInsurancesRepository = medicalInsurancesRepository;
+            _clientRepository = clientRepository;
+            _abpSession = abpSession;
         }
 
-        public async Task<CreateInstitutionOutput> RegisterInstitution(CreateInstitutionInput input)
-        {
-            var output = new CreateInstitutionOutput();
-            try
-            {
+        public async Task<List<string>> GetMedicalInsurances () {
+            var output = new List<string> ();
+            var medicalInsurances = await _medicalInsurancesRepository.GetAllListAsync ();
+            foreach (var medicalInsurance in medicalInsurances) {
+                output.Add (medicalInsurance.Name);
+            }
+            return output;
+        }
+        public async Task<CreateInstitutionOutput> RegisterInstitution (CreateInstitutionInput input) {
+            var output = new CreateInstitutionOutput ();
+            try {
                 var institution = input.Institution;
-                var institutionMapper = _objectMapper.Map<Institution>(institution);
-                await _institutionRepository.InsertAsync(institutionMapper);
+                var institutionMapper = _objectMapper.Map<Institution> (institution);
+                await _institutionRepository.InsertAsync (institutionMapper);
 
-                var tenancyName = institution.Name.ToLower().Replace(" ", "").Replace(AbpTenantBase.TenancyNameRegex, "");
-                var CreateInstitutionTenantInput = new CreateInstitutionTenantInput()
-                {
+                var tenancyName = institution.Name.ToLower ().Replace (" ", "").Replace (AbpTenantBase.TenancyNameRegex, "");
+                var CreateInstitutionTenantInput = new CreateInstitutionTenantInput () {
                     TenancyName = tenancyName,
                     InstitutionName = institution.Name,
                     adminEmail = institution.TechnicalContact.Email
                 };
-                var newTenantUser = await CreateTenant(CreateInstitutionTenantInput);
+                var newTenantUser = await CreateTenant (CreateInstitutionTenantInput);
 
                 #region email content
 
@@ -116,20 +127,16 @@ O acesso de sua instituição&nbsp;ao <strong>Projeto Apollo</strong>&nbsp;foi c
 
                 #endregion email content
 
-                await SendEmail(institution.Name, institution.TechnicalContact.Email, "(NoReply) Cadastro realizado com sucesso", emailContent);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
+                await SendEmail (institution.Name, institution.TechnicalContact.Email, "(NoReply) Cadastro realizado com sucesso", emailContent);
+            } catch (Exception e) {
+                Console.WriteLine (e);
             }
             return output;
         }
 
-        public InstitutionDto CreateInstitution()
-        {
-            var output = new InstitutionDto();
-            var emptyAddress = new AddressDto()
-            {
+        public InstitutionDto CreateInstitution () {
+            var output = new InstitutionDto ();
+            var emptyAddress = new AddressDto () {
                 CEP = string.Empty,
                 AddressLine = string.Empty,
                 Number = string.Empty,
@@ -138,20 +145,18 @@ O acesso de sua instituição&nbsp;ao <strong>Projeto Apollo</strong>&nbsp;foi c
                 City = string.Empty,
                 State = string.Empty
             };
-            var emptyListAddress = new List<AddressDto>();
-            emptyListAddress.Add(emptyAddress);
+            var emptyListAddress = new List<AddressDto> ();
+            emptyListAddress.Add (emptyAddress);
             output.Addresses = emptyListAddress;
-            output.TechnicalContact = new ContactDto();
-            output.BillingInfo = new BillingDto();
+            output.TechnicalContact = new ContactDto ();
+            output.BillingInfo = new BillingDto ();
             return output;
         }
 
-        public async Task<RegisterOutput> RegisterClient(RegisterInput input)
-        {
-            var user = new User();
-            try
-            {
-                user = await _userRegistrationManager.RegisterClientAsync(
+        public async Task<RegisterOutput> RegisterClient (RegisterInput input) {
+            var user = new User ();
+            try {
+                user = await _userRegistrationManager.RegisterClientAsync (
                     input.Name,
                     input.Surname,
                     input.EmailAddress,
@@ -159,7 +164,13 @@ O acesso de sua instituição&nbsp;ao <strong>Projeto Apollo</strong>&nbsp;foi c
                     input.Password,
                     true // Assumed email address is always confirmed. Change this if you want to implement email confirmation.
                 );
-
+                var client = new Client {
+                    MedicalInsurance = input.MedicalInsurance,
+                    Name = user.Name,
+                    Surname = user.Surname,
+                    UserId = user.Id
+                };
+                await _clientRepository.InsertAsync (client);
                 #region email content
 
                 var emailHeader = @"<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'><html xmlns='http://www.w3.org/1999/xhtml' xmlns:o='urn:schemas-microsoft-com:office:office' style='width:100%;font-family:arial, 'helvetica neue', helvetica, sans-serif;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;padding:0;Margin:0;'><head><meta charset='UTF-8'><meta content='width=device-width, initial-scale=1' name='viewport'><meta name='x-apple-disable-message-reformatting'><meta http-equiv='X-UA-Compatible' content='IE=edge'><meta content='telephone=no' name='format-detection'><title>Novo e-mail</title> <!--[if (mso 16)]><style type='text/css'>     a {text-decoration: none;}     </style><![endif]--> <!--[if gte mso 9]><style>sup { font-size: 100% !important; }</style><![endif]--> <!--[if gte mso 9]><xml> <o:OfficeDocumentSettings> <o:AllowPNG></o:AllowPNG> <o:PixelsPerInch>96</o:PixelsPerInch>
@@ -178,113 +189,116 @@ Projeto Apollo</strong>&nbsp;foi criado com sucesso.<br><br>Com ele é possivel 
 
                 #endregion email content
 
-                await SendEmail(user.FullName, user.EmailAddress, "(NoReply) Cadastro realizado com sucesso", emailContent);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
+                await SendEmail (user.FullName, user.EmailAddress, "(NoReply) Cadastro realizado com sucesso", emailContent);
+            } catch (Exception e) {
+                Console.WriteLine (e);
             }
 
-            return new RegisterOutput
-            {
+            return new RegisterOutput {
                 CanLogin = user.IsActive && true
             };
         }
 
-        public async Task<QuestionaryDto> GetQuestionary()
-        {
-            var questionary = _questionaryRepository.GetAll();
-            var output = _objectMapper.Map<QuestionaryDto>(questionary);
+        public async Task<QuestionaryDto> GetQuestionary () {
+            // var questionary = _questionaryRepository.GetAll ();
+            var output = new QuestionaryDto (); //_objectMapper.Map<QuestionaryDto> (questionary);
 
             return output;
         }
 
-        private async Task SendEmail(string toName, string to, string subject, string body)
-        {
-            var emailUsername = _settingManager.GetSettingValueForApplication(AppSettingNames.EmailUsername);
-            var emailPassword = _settingManager.GetSettingValueForApplication(AppSettingNames.EmailPassword);
-            var emailUseSSL = bool.Parse(_settingManager.GetSettingValueForApplication(AppSettingNames.EmailUseSSL));
-            var emailSMTPServer = _settingManager.GetSettingValueForApplication(AppSettingNames.EmailSMTPServer);
-            var emailSMTPPort = _settingManager.GetSettingValueForApplication(AppSettingNames.EmailSMTPPort);
-            var mailMessage = new MimeMessage();
-
-            mailMessage.From.Add(new MailboxAddress("Projeto Apollo", emailUsername));
-            mailMessage.To.Add(new MailboxAddress(toName, to));
-            mailMessage.Subject = subject;
-            var bodyBuilder = new BodyBuilder();
-            bodyBuilder.HtmlBody = body;
-            mailMessage.Body = bodyBuilder.ToMessageBody();
-            using (var smtpClient = new SmtpClient())
-            {
-                smtpClient.Connect(emailSMTPServer, int.Parse(emailSMTPPort), emailUseSSL);
-                smtpClient.Authenticate(emailUsername, emailPassword);
-                smtpClient.Send(mailMessage);
-                smtpClient.Disconnect(true);
+        public async Task<ClientDto> GetClient () {
+            try {
+                var userId = _abpSession.GetUserId ();
+                var client = await _clientRepository.GetAll ().Where (c => c.UserId == userId).FirstOrDefaultAsync ();
+                var output = new ClientDto {
+                    MedicalInsurance = client.MedicalInsurance,
+                    Name = client.Name,
+                    Surname = client.Surname,
+                    UserId = client.UserId
+                };
+                return output;
+            } catch (Exception e) {
+                Console.WriteLine (e);
+                return null;
             }
         }
 
-        private async Task<User> CreateTenant(CreateInstitutionTenantInput input)
-        {
-            var tenantDto = new CreateTenantDto()
-            {
+        private async Task SendEmail (string toName, string to, string subject, string body) {
+            var emailUsername = _settingManager.GetSettingValueForApplication (AppSettingNames.EmailUsername);
+            var emailPassword = _settingManager.GetSettingValueForApplication (AppSettingNames.EmailPassword);
+            var emailUseSSL = bool.Parse (_settingManager.GetSettingValueForApplication (AppSettingNames.EmailUseSSL));
+            var emailSMTPServer = _settingManager.GetSettingValueForApplication (AppSettingNames.EmailSMTPServer);
+            var emailSMTPPort = _settingManager.GetSettingValueForApplication (AppSettingNames.EmailSMTPPort);
+            var mailMessage = new MimeMessage ();
+
+            mailMessage.From.Add (new MailboxAddress ("Projeto Apollo", emailUsername));
+            mailMessage.To.Add (new MailboxAddress (toName, to));
+            mailMessage.Subject = subject;
+            var bodyBuilder = new BodyBuilder ();
+            bodyBuilder.HtmlBody = body;
+            mailMessage.Body = bodyBuilder.ToMessageBody ();
+            using (var smtpClient = new SmtpClient ()) {
+                smtpClient.Connect (emailSMTPServer, int.Parse (emailSMTPPort), emailUseSSL);
+                smtpClient.Authenticate (emailUsername, emailPassword);
+                smtpClient.Send (mailMessage);
+                smtpClient.Disconnect (true);
+            }
+        }
+
+        private async Task<User> CreateTenant (CreateInstitutionTenantInput input) {
+            var tenantDto = new CreateTenantDto () {
                 TenancyName = input.TenancyName,
                 Name = input.InstitutionName,
                 AdminEmailAddress = input.adminEmail,
                 IsActive = true
             };
-            if (_tenantRepository.GetAll().Where(t => t.TenancyName == input.TenancyName).ToList().Count() > 0)
-            {
-                throw new UserFriendlyException("Ja existe uma instituição com este nome");
+            if (_tenantRepository.GetAll ().Where (t => t.TenancyName == input.TenancyName).ToList ().Count () > 0) {
+                throw new UserFriendlyException ("Ja existe uma instituição com este nome");
             }
 
             var CurrentUnitOfWork = _unitOfWorkManager.Current;
-            var tenantService = new TenantAppService(_tenantRepository, _tenantManager, _editionManager, _userManager, _roleManager, _abpZeroDbMigrator);
+            var tenantService = new TenantAppService (_tenantRepository, _tenantManager, _editionManager, _userManager, _roleManager, _abpZeroDbMigrator);
 
-            var adminUser = new User();
-            try
-            {
-                var tenant = _objectMapper.Map<Tenant>(tenantDto);
+            var adminUser = new User ();
+            try {
+                var tenant = _objectMapper.Map<Tenant> (tenantDto);
                 tenant.ConnectionString = null;
 
-                var defaultEdition = await _editionManager.FindByNameAsync(EditionManager.DefaultEditionName);
-                if (defaultEdition != null)
-                {
+                var defaultEdition = await _editionManager.FindByNameAsync (EditionManager.DefaultEditionName);
+                if (defaultEdition != null) {
                     tenant.EditionId = defaultEdition.Id;
                 }
 
-                await _tenantManager.CreateAsync(tenant);
-                await CurrentUnitOfWork.SaveChangesAsync(); // To get new tenant's id.
+                await _tenantManager.CreateAsync (tenant);
+                await CurrentUnitOfWork.SaveChangesAsync (); // To get new tenant's id.
 
                 // Create tenant database
-                _abpZeroDbMigrator.CreateOrMigrateForTenant(tenant);
+                _abpZeroDbMigrator.CreateOrMigrateForTenant (tenant);
 
                 // We are working entities of new tenant, so changing tenant filter
-                using (CurrentUnitOfWork.SetTenantId(tenant.Id))
-                {
+                using (CurrentUnitOfWork.SetTenantId (tenant.Id)) {
                     // Create static roles for new tenant
-                    tenantService.CheckErrors(await _roleManager.CreateStaticRoles(tenant.Id));
+                    tenantService.CheckErrors (await _roleManager.CreateStaticRoles (tenant.Id));
 
-                    await CurrentUnitOfWork.SaveChangesAsync(); // To get static role ids
+                    await CurrentUnitOfWork.SaveChangesAsync (); // To get static role ids
 
                     // Grant all permissions to admin role
-                    var adminRole = _roleManager.Roles.Single(r => r.Name == StaticRoleNames.Tenants.Admin);
-                    await _roleManager.GrantAllPermissionsAsync(adminRole);
+                    var adminRole = _roleManager.Roles.Single (r => r.Name == StaticRoleNames.Tenants.Admin);
+                    await _roleManager.GrantAllPermissionsAsync (adminRole);
 
                     // Create admin user for the tenant
-                    adminUser = User.CreateTenantAdminUser(tenant.Id, tenantDto.AdminEmailAddress);
-                    await _userManager.InitializeOptionsAsync(tenant.Id);
-                    string password = User.CreateRandomPassword();
-                    tenantService.CheckErrors(await _userManager.CreateAsync(adminUser, password));
-                    await CurrentUnitOfWork.SaveChangesAsync(); // To get admin user's id
+                    adminUser = User.CreateTenantAdminUser (tenant.Id, tenantDto.AdminEmailAddress);
+                    await _userManager.InitializeOptionsAsync (tenant.Id);
+                    string password = User.CreateRandomPassword ();
+                    tenantService.CheckErrors (await _userManager.CreateAsync (adminUser, password));
+                    await CurrentUnitOfWork.SaveChangesAsync (); // To get admin user's id
 
                     // Assign admin user to role!
-                    tenantService.CheckErrors(await _userManager.AddToRoleAsync(adminUser, adminRole.Name));
-                    await CurrentUnitOfWork.SaveChangesAsync();
+                    tenantService.CheckErrors (await _userManager.AddToRoleAsync (adminUser, adminRole.Name));
+                    await CurrentUnitOfWork.SaveChangesAsync ();
                 }
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
+            } catch (Exception e) {
+                Console.WriteLine (e);
             }
             return adminUser;
         }

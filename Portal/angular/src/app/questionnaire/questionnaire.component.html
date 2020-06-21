@@ -15,16 +15,233 @@
     </div>
   </section>
   <section class="content px-4">
-    <div class="container-fluid">
-      <div class="card">
-          <div class="card-header">
-            <div class="progress"  style="height:20px">
-                <div class="progress-bar progress-bar-striped"  [style.width.%]="questionaryProgress"  style="width:60%;height:20px">
-                 {{questionaryProgressLabel}}
+    <div class="d-flex justify-content-center">
+      <div class="card col-md-6">
+        <div class="card-header">
+          <div class="progress" style="height: 20px;">
+            <div
+              class="progress-bar progress-bar-striped"
+              [style.width.%]="questionaryProgress"
+              style="width: 60%; height: 20px;"
+            >
+              {{ questionaryProgressLabel }}
+            </div>
+          </div>
+          <div class="text-center mt-3 mb-3" *ngIf="step === 2">
+            <h3>Bem vindo a triagem</h3>
+            <h3>Por favor,responda as questões abaixo</h3>
+          </div>
+        </div>
+        <div class="card-body p-0 p-t-15">
+          <div *ngIf="step === 1" class="container">
+            <div class="container">
+              <div class="row">
+                <div class="form-group row required col-md-5">
+                  <label class="col-form-label" for="name" *ngIf="specialities">
+                    Selecione a especialidade que deseja
+                  </label>
+
+                  <select
+                    #specialitySelect
+                    name="specialities"
+                    [(ngModel)]="selectedSpeciality"
+                    class="custom-select custom-select-lg mb-4 mt-1"
+                  >
+                    <option *ngFor="let speciality of specialities">{{
+                      speciality
+                    }}</option>
+                  </select>
                 </div>
               </div>
+            </div>
           </div>
-        <div class="card-body p-0">
+          <div *ngIf="step === 2" class="container">
+            <div class="form-group row required">
+              <div class="container">
+                <div class="form-group row">
+                  <div class="col-md-8 mb-2">
+                    <div class="custom-control custom-checkbox">
+                      <input
+                        type="checkbox"
+                        class="custom-control-input"
+                        id="pain"
+                        name="pain"
+                        [(ngModel)]="questionaryResult.pain"
+                      />
+                      <label for="pain" class="custom-control-label">
+                        Está sentido dor?
+                      </label>
+                    </div>
+                  </div>
+                  <div class="col-md-8 mb-2 ml-2" *ngIf="questionaryResult.pain">
+                    <div class="form-group">
+                      <label for="formControlRange"
+                        >De 1 à 10, qual o valor de sua dor?</label
+                      >
+                      <input
+                        type="range"
+                        class="form-control-range"
+                        id="formControlRange"
+                        min="1"
+                        max="10"
+                        [(ngModel)]="questionaryResult.quantityPain"
+                      /><b [ngClass]="{
+                      'text-danger':questionaryResult.quantityPain >7,
+                      'text-warning':questionaryResult.quantityPain <=7 && questionaryResult.quantityPain > 4,
+                        'text-info':questionaryResult.quantityPain<=4}">{{ questionaryResult.quantityPain }}</b>
+                    </div>
+                  </div>
+                  <div class="col-md-8 mb-3 ml-2" *ngIf="questionaryResult.pain ">
+                    <label for="regionOfPain"
+                      >Quais são as regiões de sua dor?</label
+                    >
+                    <ng-select
+                      name="regionOfPain"
+                      [multiple]="true"
+                      [(ngModel)]="questionaryResult.regionOfPain"
+                    >
+                      <ng-option
+                        *ngFor="let region of bodyRegions"
+                        [value]="region"
+                        >{{ region }}</ng-option
+                      >
+                    </ng-select>
+                  </div>
+                  <div class="col-md-8 mb-2">
+                    <div class="custom-control custom-checkbox">
+                      <input
+                        type="checkbox"
+                        class="custom-control-input"
+                        id="vomit"
+                        name="vomit"
+                        [(ngModel)]="questionaryResult.vomit"
+                      />
+                      <label for="vomit" class="custom-control-label">
+                        Você vomitou?
+                      </label>
+                    </div>
+                  </div>
+                  <div class="col-md-8 mb-2">
+                    <div class="custom-control custom-checkbox">
+                      <input
+                        type="checkbox"
+                        class="custom-control-input"
+                        id="breathDificulty"
+                        name="breathDificulty"
+                        [(ngModel)]="questionaryResult.breathDificulty"
+                      />
+                      <label for="breathDificulty" class="custom-control-label">
+                        Você está com dificuldade para respirar?
+                      </label>
+                    </div>
+                  </div>
+                  <div
+                    class="col-md-8 mb-2 ml-2"
+                    *ngIf="questionaryResult.breathDificulty"
+                    
+                  >
+                    <div class="custom-control custom-checkbox">
+                      <input
+                        type="checkbox"
+                        class="custom-control-input"
+                        id="painOnBreath"
+                        name="painOnBreath"
+                        [(ngModel)]="questionaryResult.painOnBreath"
+                      />
+                      <label for="painOnBreath" class="custom-control-label">
+                        Você esta com dor ao respirar?
+                      </label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-8 mb-2 ">
+                    <div class="custom-control custom-checkbox">
+                      <input
+                        type="checkbox"
+                        class="custom-control-input"
+                        id="fever"
+                        name="fever"
+                        [(ngModel)]="questionaryResult.fever"
+                      />
+                      <label for="fever" class="custom-control-label">
+                        Você esta com febre?
+                      </label>
+                    </div>
+                  </div>
+                  <div class="col-md-8 mb-2 ml-2" *ngIf="questionaryResult.fever">
+                    <label for="feverQuantity">
+                      Caso tenha medido, informe a temperatura por favor
+                    </label>
+                    <input
+                      type="number"
+                      step="0.01"
+                      class="form-control"
+                      id="feverQuantity"
+                      name="feverQuantity"
+                      [(ngModel)]="questionaryResult.feverQuantity"
+                    />
+                  </div>
+                  <div class="col-md-8 mb-2 ">
+                    <div class="custom-control custom-checkbox">
+                      <input
+                        type="checkbox"
+                        class="custom-control-input"
+                        id="bleeding"
+                        name="bleeding"
+                        [(ngModel)]="questionaryResult.bleeding"
+                      />
+                      <label for="bleeding" class="custom-control-label">
+                        Você esta tendo, ou teve hemorragia? (Perda de sangue)
+                      </label>
+                    </div>
+                  </div>
+                  <div class="col-md-8 mb-2 ml-2" *ngIf="questionaryResult.bleeding">
+                    <div class="custom-control custom-checkbox">
+                      <input
+                        type="checkbox"
+                        class="custom-control-input"
+                        id="stopBleeding"
+                        name="stopBleeding"
+                        [(ngModel)]="questionaryResult.stopBleeding"
+                      />
+                      <label for="stopBleeding" class="custom-control-label">
+                        Conseguiu estancar?
+                      </label>
+                    </div>
+                  </div>
+                  
+                  <div class="ml-2" *ngIf="questionaryResult.bleeding && !questionaryResult.stopBleeding">
+                    <a
+                      style="color: red;"
+                      href="https://www.youtube.com/watch?v=2IEJyLwoxpw"
+                      >Veja aqui como realizar interromper uma hemorragia</a
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="step === 3" class="container">
+            <div id="map" class="map-container"> </div> 
+          </div>
+
+        </div>
+
+        <div class="card-footer border-top">
+          <button
+            *ngIf="step === 1"
+            class="btn btn-secondary float-sm-right"
+            (click)="secondPart()"
+          >
+            Proximo
+          </button>
+          <button
+            *ngIf="step === 2"
+            class="btn btn-secondary float-sm-right"
+            (click)="getMap()"
+          >
+            Proximo
+          </button>
         </div>
       </div>
     </div>

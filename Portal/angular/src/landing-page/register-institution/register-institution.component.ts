@@ -72,7 +72,7 @@ export class RegisterInstitutionComponent extends AppComponentBase
     });
   }
   goToLoginPage() {
-    this.router.navigate(["app/home"]);
+    this.router.navigate(["/app/home"]);
   }
   resolved(captchaResponse: string, res) {
     console.log({ captchaResponse });
@@ -104,7 +104,7 @@ export class RegisterInstitutionComponent extends AppComponentBase
       input.institution = this.institution;
       this._apolloServiceProxy.registerInstitution(input).subscribe(
         (r) => {
-          this.router.navigate(["app/home"]);
+          this.router.navigate(["/app/home"]);
         },
         (err) => {
           abp.message.error(err, "ERRO!");

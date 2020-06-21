@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Abp.Application.Services;
 using ProjetoApollo.Apollo.Dto;
@@ -13,5 +14,7 @@ namespace ProjetoApollo.Apollo.AppService
         InstitutionDto CreateInstitution ();
         Task<RegisterOutput> RegisterClient(RegisterInput input);
         Task<QuestionaryDto> GetQuestionary();
+        Task<List<string>> GetMedicalInsurances();
+        Task<ClientDto> GetClient ();
     }
 }

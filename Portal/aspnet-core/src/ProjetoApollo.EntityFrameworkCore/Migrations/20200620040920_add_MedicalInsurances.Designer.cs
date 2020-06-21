@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using ProjetoApollo.EntityFrameworkCore;
@@ -9,9 +10,10 @@ using ProjetoApollo.EntityFrameworkCore;
 namespace ProjetoApollo.Migrations
 {
     [DbContext(typeof(ProjetoApolloDbContext))]
-    partial class ProjetoApolloDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200620040920_add_MedicalInsurances")]
+    partial class add_MedicalInsurances
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

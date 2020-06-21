@@ -34,6 +34,8 @@ namespace ProjetoApollo.Authorization.Accounts.Dto
         [DisableAuditing]
         public string CaptchaResponse { get; set; }
 
+        public string MedicalInsurance {get;set;}
+
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
             if (!UserName.IsNullOrEmpty())
