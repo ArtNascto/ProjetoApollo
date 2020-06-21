@@ -1,6 +1,79 @@
 @import "~@ng-select/ng-select/themes/material.theme.css";
-.map-container {
-  width: 100%;
-  height: 100%;
+@import "@tomtom-international/web-sdk-maps";
+
+#map-container {
+  position: relative;
+  display: flex;
+}
+.map-hide {
+  display: none;
+}
+.map-show {
+  display: contents;
+  width: 100vmin;
+  height: 100vmin;
+  min-height: 100%;
+  min-width: 100%;
+  max-height: 100%;
+  max-width: 100%;
+}
+
+.card {
+  width: 65vw !important;
+  height: 80vh !important;
+  min-width: 65vw !important;
+  min-height: 80vh !important;
+  max-width: 65vw !important;
+  max-height: 80vh !important;
+}
+
+#map {
+  width: 100vmin;
+  height: 100vmin;
+  min-height: 100%;
+  min-width: 100%;
+  max-height: 100%;
+  max-width: 100%;
+}
+// .mapboxgl-canvas{
+//   max-width: 100% !important;
+//   width: 100vw !important;
+//   height: 100vh !important;
+//   max-height: 100% !important;
+// }
+.marker-icon {
+  background-position: center;
+  background-size: 22px 22px;
+  border-radius: 50%;
+  height: 22px;
+  left: 4px;
   position: absolute;
+  text-align: center;
+  top: 3px;
+  transform: rotate(45deg);
+  width: 22px;
+}
+.marker {
+  height: 30px;
+  width: 30px;
+}
+.marker-content {
+  background: #c30b82;
+  border-radius: 50% 50% 50% 0;
+  height: 30px;
+  left: 50%;
+  margin: -15px 0 0 -15px;
+  position: absolute;
+  top: 50%;
+  transform: rotate(-45deg);
+  width: 30px;
+}
+.marker-content::before {
+  background: #ffffff;
+  border-radius: 50%;
+  content: "";
+  height: 24px;
+  margin: 3px 0 0 3px;
+  position: absolute;
+  width: 24px;
 }

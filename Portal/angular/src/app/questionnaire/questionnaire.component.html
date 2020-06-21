@@ -16,20 +16,28 @@
   </section>
   <section class="content px-4">
     <div class="d-flex justify-content-center">
-      <div class="card col-md-6">
+      <div class="card">
         <div class="card-header">
           <div class="progress" style="height: 20px;">
             <div
               class="progress-bar progress-bar-striped"
               [style.width.%]="questionaryProgress"
-              style="width: 60%; height: 20px;"
+              style="width: 100%; height: 20px;"
             >
               {{ questionaryProgressLabel }}
             </div>
           </div>
           <div class="text-center mt-3 mb-3" *ngIf="step === 2">
-            <h3>Bem vindo a triagem</h3>
-            <h3>Por favor,responda as questões abaixo</h3>
+            <h4>Bem vindo a triagem</h4>
+            <h4>Por favor,responda as questões abaixo</h4>
+          </div>
+          <div class="text-center mt-3 mb-3" *ngIf="step === 3">
+            <h4 *ngIf="selectedInstitutionName">
+              Você selecionou <b>{{ selectedInstitutionName }}</b>
+            </h4>
+            <h4 *ngIf="selectedInstitutionName">
+              Localização: {{ selectedInstitution.address.addressLine }}
+            </h4>
           </div>
         </div>
         <div class="card-body p-0 p-t-15">
@@ -73,7 +81,10 @@
                       </label>
                     </div>
                   </div>
-                  <div class="col-md-8 mb-2 ml-2" *ngIf="questionaryResult.pain">
+                  <div
+                    class="col-md-8 mb-2 ml-2"
+                    *ngIf="questionaryResult.pain"
+                  >
                     <div class="form-group">
                       <label for="formControlRange"
                         >De 1 à 10, qual o valor de sua dor?</label
@@ -85,13 +96,22 @@
                         min="1"
                         max="10"
                         [(ngModel)]="questionaryResult.quantityPain"
-                      /><b [ngClass]="{
-                      'text-danger':questionaryResult.quantityPain >7,
-                      'text-warning':questionaryResult.quantityPain <=7 && questionaryResult.quantityPain > 4,
-                        'text-info':questionaryResult.quantityPain<=4}">{{ questionaryResult.quantityPain }}</b>
+                      /><b
+                        [ngClass]="{
+                          'text-danger': questionaryResult.quantityPain > 7,
+                          'text-warning':
+                            questionaryResult.quantityPain <= 7 &&
+                            questionaryResult.quantityPain > 4,
+                          'text-info': questionaryResult.quantityPain <= 4
+                        }"
+                        >{{ questionaryResult.quantityPain }}</b
+                      >
                     </div>
                   </div>
-                  <div class="col-md-8 mb-3 ml-2" *ngIf="questionaryResult.pain ">
+                  <div
+                    class="col-md-8 mb-3 ml-2"
+                    *ngIf="questionaryResult.pain"
+                  >
                     <label for="regionOfPain"
                       >Quais são as regiões de sua dor?</label
                     >
@@ -138,7 +158,6 @@
                   <div
                     class="col-md-8 mb-2 ml-2"
                     *ngIf="questionaryResult.breathDificulty"
-                    
                   >
                     <div class="custom-control custom-checkbox">
                       <input
@@ -154,7 +173,7 @@
                     </div>
                   </div>
 
-                  <div class="col-md-8 mb-2 ">
+                  <div class="col-md-8 mb-2">
                     <div class="custom-control custom-checkbox">
                       <input
                         type="checkbox"
@@ -168,7 +187,10 @@
                       </label>
                     </div>
                   </div>
-                  <div class="col-md-8 mb-2 ml-2" *ngIf="questionaryResult.fever">
+                  <div
+                    class="col-md-8 mb-2 ml-2"
+                    *ngIf="questionaryResult.fever"
+                  >
                     <label for="feverQuantity">
                       Caso tenha medido, informe a temperatura por favor
                     </label>
@@ -181,7 +203,7 @@
                       [(ngModel)]="questionaryResult.feverQuantity"
                     />
                   </div>
-                  <div class="col-md-8 mb-2 ">
+                  <div class="col-md-8 mb-2">
                     <div class="custom-control custom-checkbox">
                       <input
                         type="checkbox"
@@ -195,7 +217,10 @@
                       </label>
                     </div>
                   </div>
-                  <div class="col-md-8 mb-2 ml-2" *ngIf="questionaryResult.bleeding">
+                  <div
+                    class="col-md-8 mb-2 ml-2"
+                    *ngIf="questionaryResult.bleeding"
+                  >
                     <div class="custom-control custom-checkbox">
                       <input
                         type="checkbox"
@@ -209,8 +234,14 @@
                       </label>
                     </div>
                   </div>
-                  
-                  <div class="ml-2" *ngIf="questionaryResult.bleeding && !questionaryResult.stopBleeding">
+
+                  <div
+                    class="ml-2"
+                    *ngIf="
+                      questionaryResult.bleeding &&
+                      !questionaryResult.stopBleeding
+                    "
+                  >
                     <a
                       style="color: red;"
                       href="https://www.youtube.com/watch?v=2IEJyLwoxpw"
@@ -221,27 +252,60 @@
               </div>
             </div>
           </div>
-          <div *ngIf="step === 3" class="container">
-            <div id="map" class="map-container"> </div> 
-          </div>
+          <div
+            [ngClass]="{ 'map-show': step === 3, 'map-hide': step !== 3 }"
+            class="container"
+            id="map-container"
+          ></div>
+          <div *ngIf="step === 4" class="container text-center">
+            <h2><b>Consulta marcada com sucesso!</b></h2>
+            <br />
+            <br />
+            <h4>
+              A area de atendimento do hospital escolhido ja esta lhe aguardando
+            </h4>
+            <h4>
+              Ao chegar no local será necessario informar a chegada e realizar o restante do
+              processo de triagem
+            </h4>
+            <br />
 
+            <h4>Nós da Apollo lhe desejamos melhoras e boa sorte!</h4>
+          </div>
         </div>
 
         <div class="card-footer border-top">
           <button
             *ngIf="step === 1"
-            class="btn btn-secondary float-sm-right"
+            class="btn btn-primary float-sm-right"
             (click)="secondPart()"
+            [disabled]="!selectedSpeciality"
           >
             Proximo
           </button>
           <button
             *ngIf="step === 2"
-            class="btn btn-secondary float-sm-right"
+            class="btn btn-primary float-sm-right"
             (click)="getMap()"
           >
             Proximo
           </button>
+          <button
+            *ngIf="step === 3"
+            [disabled]="!selectedInstitutionName"
+            class="btn btn-primary float-sm-right"
+            (click)="finalize()"
+          >
+            Finalizar
+          </button>
+          <!-- <button
+           style="margin-left: 1em; margin-right: 1em;"
+          *ngIf="step >= 1"
+          class="btn btn-secondary float-sm-right"
+          (click)="back()"
+        >
+          Voltar
+        </button> -->
         </div>
       </div>
     </div>

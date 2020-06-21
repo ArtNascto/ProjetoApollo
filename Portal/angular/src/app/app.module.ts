@@ -43,6 +43,7 @@ import { SidebarMenuComponent } from './layout/sidebar-menu.component';
 import {QuestionnaireComponent} from './questionnaire/questionnaire.component';
 import { InstitutionData } from './questionnaire/institution-data.component';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { HereService } from '@shared/map/here-service';
 
 @NgModule({
   declarations: [
@@ -91,7 +92,8 @@ import { NgSelectModule } from '@ng-select/ng-select';
     ServiceProxyModule,
     SharedModule,
     NgxPaginationModule,
-    NgSelectModule
+    NgSelectModule,
+    
 
   ],
   providers: [InstitutionData,],
