@@ -10,9 +10,13 @@
     "lint": "tslint --force --project src/tsconfig.json src/**/*.ts -t verbose",
     "ng": "ng",
     "start": "ng serve --host 0.0.0.0 --port 4200",
-    "test": "ng test"
+    "test": "ng test",
+    "build": "ng build --prod --build-optimizer=false"
   },
   "dependencies": {
+    "@amcharts/amcharts4": "^4.9.27",
+    "@amcharts/amcharts4-fonts": "^4.0.1",
+    "@amcharts/amcharts4-geodata": "^4.1.15",
     "@angular/animations": "^9.1.4",
     "@angular/common": "^9.1.4",
     "@angular/compiler": "^9.1.4",
