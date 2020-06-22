@@ -308,13 +308,15 @@ export class InitialContentComponent extends AppComponentBase
       this.chart.dispose();
     }
   }
-  goToLoginPage() {
+  goToLoginPage(): void {
     this.router.navigate(["/app/home"]);
   }
   goToRegisterPage() {
-    this.router.navigate(["/app/home"]);
+    this.router.navigate(["app/home"]);
   }
-  searchInstitution() {}
+  searchInstitution() {
+    this.router.navigate(["/app/questionnaire"]);
+  }
   registerInstitution() {
     this.router.navigate(["landingpage/registerinstitution"]);
   }
