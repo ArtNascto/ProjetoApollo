@@ -11,6 +11,7 @@ import { LandingPageComponent } from "./landing-page.component";
 import { NgxPaginationModule } from "ngx-pagination";
 import { CreditCardDirectivesModule } from 'angular-cc-library';
 import { ChartsModule } from 'ng2-charts';
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 // import { RecaptchaModule, RecaptchaFormsModule } from 'ng-recaptcha';
 @NgModule({
   imports: [
