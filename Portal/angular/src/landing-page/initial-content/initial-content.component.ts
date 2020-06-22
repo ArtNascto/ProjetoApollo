@@ -1,15 +1,12 @@
 import { Injector, OnInit, Component, NgZone } from "@angular/core";
 import { AppComponentBase } from "@shared/app-component-base";
 import { Router } from "@angular/router";
-<<<<<<< HEAD
 import * as am4core from "@amcharts/amcharts4/core";
 import * as am4charts from "@amcharts/amcharts4/charts";
 import am4themes_animated from "@amcharts/amcharts4/themes/animated";
 
 am4core.useTheme(am4themes_animated);
 
-=======
->>>>>>> a585edc5d15350161a0705636c44a4ca688b1aac
 @Component({
   templateUrl: "./initial-content.component.html",
 })
@@ -19,7 +16,6 @@ export class InitialContentComponent extends AppComponentBase
   constructor(private router: Router, injector: Injector) {
     super(injector);
   }
-<<<<<<< HEAD
   ngOnInit() { }
   ngAfterViewInit() {
 
@@ -284,9 +280,6 @@ export class InitialContentComponent extends AppComponentBase
       this.chart.dispose();
     }
   }
-=======
-  ngOnInit() {}
->>>>>>> a585edc5d15350161a0705636c44a4ca688b1aac
   goToLoginPage() {
     this.router.navigate(["/app/home"]);
   }
