@@ -70,6 +70,8 @@ export class QuestionnaireComponent extends AppComponentBase implements OnInit {
     "Joelho Esquerdo",
     "Pé Direito",
     "Pé Esquerdo",
+    "Mão Esquerda",
+    "Mão Direita"
   ];
   zoom = 10;
   latitude: number;
@@ -139,7 +141,7 @@ export class QuestionnaireComponent extends AppComponentBase implements OnInit {
     this.step = 1;
   }
   secondPart() {
-    this.questionaryProgress = parseFloat(((100 / 3) * 2).toFixed(0));
+    this.questionaryProgress = parseFloat(((100 / 4) + (100 / 4) ).toFixed(0));
     this.questionaryProgressLabel = this.questionaryProgress + " %";
     this.filterInstitution();
     this.step = 2;
@@ -181,7 +183,9 @@ export class QuestionnaireComponent extends AppComponentBase implements OnInit {
       );
     }
 
-    this.questionaryProgress = parseFloat(((100 / 3) * 3).toFixed(0));
+    this.questionaryProgress = parseFloat(((100 / 4) + (100 / 4) +(100 / 4) ).toFixed(0));
+    this.questionaryProgressLabel = this.questionaryProgress + " %";
+
   }
   filterInstitution() {
     this.institution = this.institution.filter((i) => {
@@ -214,6 +218,10 @@ export class QuestionnaireComponent extends AppComponentBase implements OnInit {
     this.step = this.step - 1;
   }
   finalize() {
+    this.questionaryProgress =100;
+    this.questionaryProgressLabel = this.questionaryProgress + " %";
+
+    
     const self = this;
     abp.ui.setBusy();
     setTimeout(function () {
