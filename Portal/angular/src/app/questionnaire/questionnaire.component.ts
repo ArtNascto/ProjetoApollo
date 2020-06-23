@@ -71,7 +71,9 @@ export class QuestionnaireComponent extends AppComponentBase implements OnInit {
     "Pé Direito",
     "Pé Esquerdo",
     "Mão Esquerda",
-    "Mão Direita"
+    "Mão Direita",
+    "Quadril",
+    "Lombar"
   ];
   zoom = 10;
   latitude: number;
