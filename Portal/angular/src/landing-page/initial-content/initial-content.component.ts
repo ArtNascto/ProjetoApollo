@@ -4,6 +4,7 @@ import { Router } from "@angular/router";
 import * as am4core from "@amcharts/amcharts4/core";
 import * as am4charts from "@amcharts/amcharts4/charts";
 import am4themes_animated from "@amcharts/amcharts4/themes/animated";
+import { AppConsts } from "@shared/AppConsts";
 
 @Component({
   templateUrl: "./initial-content.component.html",
@@ -11,6 +12,7 @@ import am4themes_animated from "@amcharts/amcharts4/themes/animated";
 export class InitialContentComponent extends AppComponentBase
   implements OnInit {
   private chart: am4charts.XYChart;
+  logoImage:string=`${AppConsts.appBaseUrl}/assets/img/logo.png`
   constructor(private router: Router, injector: Injector,private zone: NgZone) {
     super(injector);
     am4core.useTheme(am4themes_animated);
@@ -23,11 +25,11 @@ export class InitialContentComponent extends AppComponentBase
     // Add data
     chart.data = [
       {
-        plano: "Não possui plano",
+        plano: "[bold black]Não possui plano[/]",
         value: 63.0,
       },
       {
-        plano: "Possui plano",
+        plano: "[bold black]Possui plano[/]",
         value: 37.0,
       },
     ];
@@ -50,22 +52,22 @@ export class InitialContentComponent extends AppComponentBase
     // Add data
     chart2.data = [
       {
-        horas: "< 1 hora>",
+        horas: "[bold black]< 1 hora>[/]",
         value: 26.0,
         color: chart2.colors.next(),
       },
       {
-        horas: "1 ou 2 horas",
+        horas: "[bold black]1 ou 2 horas[/]",
         value: 45.0,
         color: chart2.colors.next(),
       },
       {
-        horas: "3 ou 4 horas",
+        horas: "[bold black]3 ou 4 horas[/]",
         value: 24.0,
         color: chart2.colors.next(),
       },
       {
-        horas: "> 5 horas",
+        horas: "[bold black]> 5 horas[/]",
         color: chart2.colors.next(),
         value: 5.0,
       },
@@ -105,22 +107,22 @@ export class InitialContentComponent extends AppComponentBase
     // Add data
     chart3.data = [
       {
-        vezes: "0 a 4 vezes",
+        vezes: "[bold black]0 a 4 vezes[/]",
         value: 79.0,
         color: chart3.colors.next(),
       },
       {
-        vezes: "4 a 8 vezes",
+        vezes: "[bold black]4 a 8 vezes[/]",
         value: 14.0,
         color: chart3.colors.next(),
       },
       {
-        vezes: "8 a 10 vezes",
+        vezes: "[bold black]8 a 10 vezes[/]",
         value: 4.0,
         color: chart3.colors.next(),
       },
       {
-        vezes: "> 10 vezes",
+        vezes: "[bold black]> 10 vezes[/]",
         color: chart3.colors.next(),
         value: 3.0,
       },

@@ -20,6 +20,8 @@ export class RegisterComponent extends AppComponentBase implements OnInit {
   saving = false;
   hasMedicalInsurances:boolean = false;
   medicalInsurances: string[] = [];
+  accept:boolean
+  cpf:string = ""
   constructor(
     injector: Injector,
     private _accountService: AccountServiceProxy,
